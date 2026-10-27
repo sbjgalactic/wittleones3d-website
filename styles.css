@@ -1,0 +1,76 @@
+/* font family imports */
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+/* colors - F5F5F5, A3E7FC, FFC2E2, FF90B3, 736CED */
+
+.header {
+    background-color: #FF90B3;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 1.5rem;
+}
+
+.left-header {
+    display: flex;
+    align-items: left;
+    margin: 0.5rem;
+}
+
+.right-header {
+    display: flex;
+    align-items: right;
+    margin: 1rem;
+}
+
+.catalog-anchor,.about-anchor,.login-anchor {
+    color: #FFFFFF;
+    font-family: 'Bricolage Grotesque';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+    margin: 0.5rem 1rem;
+}
+
+
+.main-text-island {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, #a3e7fc00, #ffffff),
+                      url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYBHNy-_2qyzG1bGGZmXb9z1_A4xEGdntsLRpSd2f2wg&s=10);
+                      background-repeat: repeat;
+                      background-size: auto;
+                      background-position: auto;
+}
+
+.title-logo {
+    width: 25rem;
+    height: auto;
+    margin-top: 3rem;
+}
+.title-text {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-top: -2rem;
+    position: relative;
+    z-index: 1;
+
+    background-image: linear-gradient(to right, #FF90B3, #736CED);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* makes the text itself see-through so the gradient shows */
+    color: transparent;                   /* fallback */
+}
