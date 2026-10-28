@@ -1,0 +1,118 @@
+/* font family imports */
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+/* colors - F5F5F5, A3E7FC, FFC2E2, FF90B3, 736CED */
+
+body {
+    background-color: #F5F5F5;
+    padding: 0 0;
+    margin: 0 0;
+}
+
+body header {
+    background-color: #FFC2E2;
+    position: sticky;
+
+    display: flex;
+    justify-content: center;
+    border: 3px solid white;
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.1);
+}
+.left-header {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+}
+.left-header h1 {
+    padding: 0.5rem;
+    margin-left: 1.5rem;
+    font-family: "Bricolage Grotesque";
+    font-weight: 1000;
+    color: #F5F5F5;
+}
+
+.right-header {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 2rem;
+}
+.right-header a {
+    padding: 0.5rem 1.2rem; 
+    font-family: "Bricolage Grotesque";
+    font-weight: 1000;
+    color: #F5F5F5;
+    text-decoration: none;
+    font-size: 1.2rem;
+    
+    border-radius: 50px; 
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Only applies the white background oval to your text links on hover */
+.right-header a:not(:has(.cart-icon)):hover {
+    background-color: #F5F5F5;
+    color: #FFC2E2;
+}
+
+/* Base style for your cart image */
+.right-header .cart-icon {
+    aspect-ratio: 1 1;
+    width: 50px;
+    display: block; 
+    filter: brightness(0) invert(1);
+    transition: transform 0.2s ease;
+}
+.right-header a:has(.cart-icon) {
+    padding: 0;
+    background-color: transparent !important;
+}
+.right-header a:hover .cart-icon {
+    transform: scale(1.15);
+}
+
+
+
+.logo-island {
+    display: flex;
+    flex-direction: column;
+
+    background-image: linear-gradient(to bottom,rgba(255, 255, 255, 0), #F5F5F5), url('https://i.ibb.co/0j6Z7gM/logo-island.png');
+}
+.logo-island .logo {
+    aspect-ratio: 1 1;
+    max-width: 20dvw;
+    align-self: center;
+    margin-top: 6rem;
+    margin-bottom: 0rem;
+    position: static
+}
+.logo-island h1 {
+    margin-top: -1rem;
+    align-self: center;
+    font-family: "Bricolage Grotesque";
+    font-weight: 1000;
+    font-size: 2.5em;
+}
+.logo-island .down-arrow {
+    aspect-ratio: 1 / 1;
+    max-width: 7dvw;
+    align-self: center;
+    margin-bottom: 1rem;
+
+    filter: brightness(0) invert(1);
+
+    animation: bounce 2s infinite ease-in-out;
+}
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
