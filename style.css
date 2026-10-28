@@ -14,7 +14,6 @@ body {
 
 body header {
     background-color: #FFC2E2;
-    position: sticky;
 
     display: flex;
     justify-content: center;
@@ -27,7 +26,7 @@ body header {
     align-items: center;
 }
 .left-header h1 {
-    padding: 0.5rem;
+    padding: 0.1rem;
     margin-left: 1.5rem;
     font-family: "Bricolage Grotesque";
     font-weight: 1000;
@@ -81,7 +80,7 @@ body header {
     display: flex;
     flex-direction: column;
 
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #F5F5F5), url(./images/thankyoucard.png);
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #F5F5F5), url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT35kwpmDo58QtzoS-RUPh5l06iUYEa1cnEI_u4dF4s4g&s=10);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -111,6 +110,18 @@ body header {
     50% {
         transform: translateY(-10px);
     }
+}
+
+/* Everything except the logo island's background sits above the rain */
+body > :not(.rain):not(.logo-island) {
+    position: relative;
+    z-index: 1;
+}
+
+/* The logo island's contents (logo, title, arrow) sit above the rain too */
+.logo-island > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* ABOUT US ISLAND */
@@ -198,15 +209,24 @@ body header {
 
 .box {
     background-color: #FF90B3;
+    aspect-ratio: 1 1;
+    overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .box:hover{
     transform: translateY(-10px);
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
 }
+.box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
 .featured-items {
     display: grid;
+    margin-bottom: 4rem;
     grid-template-columns: 200px 200px 200px 200px 200px 200px;
     grid-template-rows: 200px 200px;
     gap: 1em;
@@ -221,9 +241,20 @@ body header {
     font-size: 4.5rem;
     color: #F376A5;
     margin-top: 1rem;
+    margin-bottom: 0rem;
     
     position: relative;
     z-index: 2;
+}
+.catalogue-island p {
+
+    padding: 2rem 2rem;
+    max-width: 800px;
+    text-align: center;
+    font-family: "Libre Baskerville";
+    margin-top: -2rem;
+    position: relative;
+    z-index: 1;
 }
 
 
@@ -265,4 +296,59 @@ body header {
     100% {
         background-position: 200% center; /* Moves the gradient fully across the text */
     }
+}
+
+/* contact us */
+.contactus-island {
+    border: 2px solid red;
+    display: flex;
+
+}
+
+/* raining confetti effect */
+.rain {
+    position: fixed;
+    inset: 0;
+    z-index: 0;             /* was -1 */
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.rain span {
+    position: absolute;
+    top: 0;
+    left: var(--x);
+    width: var(--size);
+    height: var(--size);
+    background: var(--color);
+    opacity: 0.85;
+    animation: rain-fall var(--dur) linear var(--delay) infinite;
+}
+
+.rain .dot {
+    border-radius: 50%;
+}
+
+.rain .confetti {
+    height: calc(var(--size) * 0.45);
+    border-radius: 2px;
+}
+
+.rain .sparkle {
+    width: calc(var(--size) * 1.6);
+    height: calc(var(--size) * 1.6);
+    clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+}
+
+@keyframes rain-fall {
+    0% {
+        transform: translate3d(0, -10vh, 0) rotate(0deg);
+    }
+    100% {
+        transform: translate3d(var(--drift), 110vh, 0) rotate(var(--spin));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rain { display: none; }
 }
