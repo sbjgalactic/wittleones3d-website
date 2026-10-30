@@ -26,12 +26,25 @@
     document.body.prepend(rain);
 })();
 
-const track = document.querySelector('.featured-track');
-if (track) {
-    const copy = track.querySelector('.featured-items').cloneNode(true);
+function startFeaturedScroller() {
+    const track = document.querySelector('.featured-track');
+    if (!track || track.dataset.ready) return;          // nothing to do, or already set up
+
+    const original = track.querySelector('.featured-items');
+    if (!original) return;
+
+    const copy = original.cloneNode(true);
     copy.setAttribute('aria-hidden', 'true');
     track.appendChild(copy);
-    track.classList.add('is-scrolling');
+
+    track.dataset.ready = 'true';
+    track.classList.add('is-scrolling');                 // animation only starts now
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startFeaturedScroller);
+} else {
+    startFeaturedScroller();
 }
 
 /* about us photos: clicking hides the caption */
