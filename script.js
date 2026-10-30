@@ -25,3 +25,24 @@
 
     document.body.prepend(rain);
 })();
+
+const track = document.querySelector('.featured-track');
+if (track) {
+    const copy = track.querySelector('.featured-items').cloneNode(true);
+    copy.setAttribute('aria-hidden', 'true');
+    track.appendChild(copy);
+    track.classList.add('is-scrolling');
+}
+
+/* about us photos: clicking hides the caption */
+const canHover = window.matchMedia('(hover: hover)');
+document.querySelectorAll('.photo-card').forEach(card => {
+    card.addEventListener('click', () => {
+        if (canHover.matches) {
+            card.classList.add('dismissed');   // mouse: hide until you leave
+        } else {
+            card.classList.toggle('open');     // touch: tap to show, tap to hide
+        }
+    });
+    card.addEventListener('mouseleave', () => card.classList.remove('dismissed'));
+});

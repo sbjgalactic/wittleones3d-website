@@ -7,7 +7,6 @@
 /* colors - F5F5F5, 5AC6C3, FFC2E2, #F376A5, 736CED, FDBB49 */
 
 :root {
-    /* white text + pink outline, shared by all section headings */
     --heading-shadow:
         -2px -2px 0 #F376A5,
          2px -2px 0 #F376A5,
@@ -15,7 +14,6 @@
          2px  2px 0 #F376A5,
          0px  5px 0 #F376A5;
 
-    /* section heading size: 4.5rem on desktop, shrinks smoothly on small screens */
     --heading-size: clamp(2.5rem, 11vw, 4.5rem);
 }
 
@@ -116,7 +114,7 @@ body header {
     display: flex;
     flex-direction: column;
 
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #F5F5F5), url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT35kwpmDo58QtzoS-RUPh5l06iUYEa1cnEI_u4dF4s4g&s=10);
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #F5F5F5), url(./images/sitebanner.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -227,21 +225,58 @@ body > :not(.rain):not(.logo-island) {
     transform: translateY(0);
 }
 
-.aboutus-photos img {
+.photo-card {
+    position: relative;
     flex: 1;
     min-width: 0;
-    width: 100%;
-    height: clamp(300px, 45vw, 600px); /* 600px on big screens, shorter as the screen narrows */
-    object-fit: cover;
+    margin: 0;
+    overflow: hidden;
     border-radius: 12px;
     border: 3px solid white;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-.aboutus-photos img:hover {
-    transform: translateY(-10px); 
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15); 
+.photo-card img {
+    display: block;
+    width: 100%;
+    height: clamp(300px, 45vw, 600px);
+    object-fit: cover;
+    transition: transform 0.4s ease;
 }
+.photo-card figcaption {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    padding: 1rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 3rem;
+    color: #F5F5F5;
+    text-shadow: var(--heading-shadow);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* mouse: hovering shows the caption */
+@media (hover: hover) {
+    .photo-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    .photo-card:hover img { transform: scale(1.05); }
+    .photo-card:hover figcaption { opacity: 1; }
+}
+
+/* keyboard focus and touch taps show it too */
+.photo-card:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
+.photo-card:focus-visible figcaption,
+.photo-card.open figcaption { opacity: 1; }
+
+/* clicked: hide it again. Keep this LAST so it wins */
+.photo-card.dismissed figcaption { opacity: 0; }
 
 /* CATALOGUE ISLAND */
 .catalogue-island {
@@ -268,18 +303,46 @@ body > :not(.rain):not(.logo-island) {
     display: block;
 }
 
-/* Fluid mosaic: boxes are 200px on desktop and shrink to fit narrower screens */
+.featured-viewport {
+    width: 100%;
+    overflow: hidden;
+    padding: 1.5rem 0;      /* room for the hover lift + shadow */
+    margin-bottom: 2.5rem;
+}
+.featured-track {
+    --set-gap: 1rem;
+    display: flex;
+    width: max-content;
+}
+.featured-track.is-scrolling { animation: scroll-featured 40s linear infinite; }
+
+@media (hover: hover) {
+    .featured-viewport:hover .featured-track { animation-play-state: paused; }
+}
+@keyframes scroll-featured {
+    to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rain { display: none; }
+    .logo-island .down-arrow,
+    .logo-island h1 { animation: none; }
+    .featured-track.is-scrolling { animation: none; }
+    .featured-viewport { overflow-x: auto; }
+}
+
+/* Fluid mosaic: boxes are 200px on desktop and shrink on narrower screens */
 .featured-items {
     --gap: 1rem;
     --cell: min(200px, calc((100vw - 2rem - 5 * var(--gap)) / 6));
 
+    flex-shrink: 0;
     display: grid;
-    justify-content: center;
-    margin-bottom: 4rem;
     grid-template-columns: repeat(6, var(--cell));
     grid-template-rows: repeat(2, var(--cell));
     gap: var(--gap);
-    grid-template-areas: 
+    padding-right: var(--set-gap);
+    grid-template-areas:
     "box-1 box-2 box-2 box-3 box-4 box-5"
     "box-1 box-6 box-7 box-7 box-4 box-8";
 }
@@ -559,10 +622,9 @@ footer {
         gap: 1.5rem;
     }
 
-    .aboutus-photos img {
-        flex: none;
-        height: 300px;
-    }
+    /* inside max-width: 1000px */
+    .photo-card { flex: none; width: 100%; }
+    .photo-card img { height: 300px; }
 }
 
 /* header: title on top, nav underneath */
@@ -627,9 +689,8 @@ footer {
         margin: 0 1rem;
         gap: 1rem;
     }
-    .aboutus-photos img {
-        height: 240px;
-    }
+    /* inside max-width: 700px */
+    .photo-card img { height: 240px; }
 
     /* catalogue: same mosaic, re-flowed into 3 columns so boxes stay a decent size */
     .catalogue-island {
@@ -638,6 +699,7 @@ footer {
     .catalogue-island p {
         padding: 2rem 1.5rem;
     }
+    .featured-track { --set-gap: 0.75rem; }
     .featured-items {
         --gap: 0.75rem;
         --cell: min(200px, calc((100vw - 2rem - 2 * var(--gap)) / 3));
@@ -648,7 +710,6 @@ footer {
             "box-1 box-3 box-4"
             "box-5 box-6 box-4"
             "box-7 box-7 box-8";
-        margin-bottom: 3rem;
     }
     .catalogue-island button,
     .aboutus-island button {
@@ -713,13 +774,16 @@ footer {
     }
 }
 
-/* touch screens have no real hover, so skip the lift effects that would get "stuck" after a tap */
 @media (hover: none) {
-    .box:hover,
-    .aboutus-photos img:hover {
-        transform: none;
-        box-shadow: none;
-    }
+    .box:hover { transform: none; box-shadow: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rain { display: none; }
+    .logo-island .down-arrow,
+    .logo-island h1 { animation: none; }
+    .featured-track { animation: none; }
+    .featured-viewport { overflow-x: auto; }
 }
 
 /* raining confetti effect */
