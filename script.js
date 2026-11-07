@@ -27,18 +27,39 @@
 })();
 
 function startFeaturedScroller() {
+    const viewport = document.querySelector('.featured-viewport');
     const track = document.querySelector('.featured-track');
-    if (!track || track.dataset.ready) return;          // nothing to do, or already set up
+    const original = track && track.querySelector('.featured-items:not([data-clone])');
+    if (!viewport || !track || !original) return;
 
-    const original = track.querySelector('.featured-items');
-    if (!original) return;
+    function build() {
+        // remove old copies (needed when the window is resized)
+        track.querySelectorAll('[data-clone]').forEach(el => el.remove());
 
-    const copy = original.cloneNode(true);
-    copy.setAttribute('aria-hidden', 'true');
-    track.appendChild(copy);
+        const setWidth = original.offsetWidth;
+        if (!setWidth) return;
 
-    track.dataset.ready = 'true';
-    track.classList.add('is-scrolling');                 // animation only starts now
+        // enough sets to fill the screen, plus one extra to slide into
+        const total = Math.ceil(viewport.clientWidth / setWidth) + 1;
+
+        for (let i = 1; i < total; i++) {
+            const copy = original.cloneNode(true);
+            copy.setAttribute('aria-hidden', 'true');
+            copy.dataset.clone = 'true';
+            track.appendChild(copy);
+        }
+
+        track.style.setProperty('--copies', total);
+        track.classList.add('is-scrolling');
+    }
+
+    build();
+
+    let timer;
+    window.addEventListener('resize', () => {
+        clearTimeout(timer);
+        timer = setTimeout(build, 200);   // wait until resizing stops
+    });
 }
 
 if (document.readyState === 'loading') {

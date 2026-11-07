@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue | Wittle Ones 3D</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./cart.css">
+    <link rel="stylesheet" href="./catalogue.css">
+    <link rel="icon" type="image" href="./images/wittleones-transparentbackground.png">
+</head>
+
+<body>
+    <header>
+        <div class="left-header">
+            <img src="./images/wittleones-transparentbackground.png" alt="">
+            <h1>Wittle Ones 3D</h1>
+        </div>
+        <div class="right-header">
+            <a href="./index.html">Home</a>
+            <a href="./about.html">About Us</a>
+            <a href="./catalogue.html">Catalogue</a>
+            <a href="#">
+                <img class="cart-icon" src="./images/carticon.webp">
+            </a>
+        </div>
+    </header>
+
+    <div class="catalogue-hero">
+        <h1>Catalogue</h1>
+        <p>Every one of our products is printed, finished and packed by hand. Pick a category to start browsing!</p>
+    </div>
+
+    <nav class="cat-nav" aria-label="Catalogue categories">
+        <a href="#minis">Minis</a>
+        <a href="#critters">Critters</a>
+        <a href="#habitats">Habitats</a>
+        <a href="#fidgets">Fidgets</a>
+        <a href="#christmas">Christmas</a>
+    </nav>
+
+    <main class="catalogue-main">
+        <section class="cat-section" id="minis">
+            <h2>Minis</h2>
+            <div class="product-grid" data-category="minis"></div>
+        </section>
+
+        <section class="cat-section" id="critters">
+            <h2>Critters</h2>
+            <div class="product-grid" data-category="critters"></div>
+        </section>
+
+        <section class="cat-section" id="habitats">
+            <h2>Habitats</h2>
+            <div class="product-grid" data-category="habitats"></div>
+        </section>
+
+        <section class="cat-section" id="fidgets">
+            <h2>Fidgets</h2>
+            <div class="product-grid" data-category="fidgets"></div>
+        </section>
+
+        <section class="cat-section" id="christmas">
+            <h2>Christmas</h2>
+            <div class="product-grid" data-category="christmas"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="./images/wittleones-transparentbackground.png" alt="Wittle Ones Logo" class="footer-logo">
+                <p>Handcrafted 3D prints made with love.</p>
+            </div>
+
+            <div class="footer-links">
+                <a href="./index.html#about">About Us</a>
+                <a href="./catalogue.html">Catalogue</a>
+                <a href="#">Cart</a>
+                <a href="./index.html#contact">Contact</a>
+            </div>
+        </div>
+
+        <p class="footer-copy">&copy; 2026 Wittle Ones 3D. All rights reserved.</p>
+    </footer>
+
+    <script src="./products.js"></script>
+    <script src="./cart.js"></script>
+    <script src="./catalogue.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>

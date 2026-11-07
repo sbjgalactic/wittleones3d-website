@@ -1,0 +1,295 @@
+/* CART - shared by every page. Link this after style.css. */
+
+/* cart count badge in the header */
+.right-header a:has(.cart-icon) { position: relative; }
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    padding: 0 0.3rem;
+    box-sizing: border-box;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    border: 2px solid white;
+    background-color: #736CED;
+    color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.8rem;
+}
+.cart-count.has-items { display: flex; }
+.cart-count.bump { animation: cart-bump 0.35s ease; }
+@keyframes cart-bump {
+    50% { transform: scale(1.35); }
+}
+
+/* quantity stepper */
+.qty-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    padding: 0.25rem;
+    background-color: #F5F5F5;
+    border: 3px solid white;
+    border-radius: 50px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
+}
+.qty-btn {
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: #FDBB49;
+    color: #4a2a1d;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.qty-btn:hover:not(:disabled) {
+    background-color: #5AC6C3;
+    color: #1f3d3c;
+    transform: scale(1.1);
+}
+.qty-btn:active:not(:disabled) { transform: scale(0.95); }
+.qty-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.qty-btn:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; }
+.qty-value {
+    min-width: 2rem;
+    text-align: center;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: #4a2a3d;
+}
+
+/* ============================================================
+   CART DRAWER
+   Selectors are doubled (.x.x) because style.css gives every direct
+   child of body position: relative; z-index: 1, which would otherwise win.
+   ============================================================ */
+body.cart-open { overflow: hidden; }
+
+body > .cart-overlay.cart-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background-color: rgba(74, 42, 61, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+body > .cart-overlay.open { opacity: 1; visibility: visible; }
+
+body > .cart-drawer.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    width: min(420px, 100vw);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: #F5F5F5;
+    border-left: 3px solid white;
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    visibility: hidden; /* keeps closed-drawer buttons out of the tab order */
+    transition: transform 0.3s ease, visibility 0.3s ease;
+}
+body > .cart-drawer.open {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+.cart-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background-color: #FFC2E2;
+    border-bottom: 3px solid white;
+}
+.cart-head h2 {
+    margin: 0;
+    font-family: "Bricolage Grotesque";
+    font-weight: 1000;
+    font-size: 2rem;
+    color: #F5F5F5;
+    text-shadow:
+        -1.5px -1.5px 0 #F376A5,
+         1.5px -1.5px 0 #F376A5,
+        -1.5px  1.5px 0 #F376A5,
+         1.5px  1.5px 0 #F376A5,
+         0px  3px 0 #F376A5;
+}
+.cart-close {
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0;
+    border: 3px solid white;
+    border-radius: 50%;
+    background-color: #F376A5;
+    color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.cart-close:hover { background-color: #736CED; transform: scale(1.1); }
+.cart-close:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; }
+
+.cart-items {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.cart-empty {
+    flex: 1;
+    margin: 0;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    font-family: "Libre Baskerville";
+    line-height: 1.7;
+    color: #4a2a3d;
+}
+.cart-empty[hidden] { display: none; }
+.cart-items:empty { flex: 0; padding: 0; }
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.75rem;
+    background-color: #FFC2E2;
+    border: 3px solid white;
+    border-radius: 18px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.05);
+}
+.cart-item > img {
+    flex-shrink: 0;
+    width: 76px;
+    height: 76px;
+    object-fit: cover;
+    background-color: #FF90B3;
+    border: 3px solid white;
+    border-radius: 12px;
+}
+.cart-item-details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+.cart-item-name {
+    margin: 0;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #4a2a3d;
+    overflow-wrap: anywhere;
+}
+.cart-item-price {
+    margin: 0;
+    font-family: "Libre Baskerville";
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #4a2a3d;
+}
+.cart-item .qty-stepper {
+    align-self: flex-start;
+    gap: 0.4rem;
+    margin-top: 0.35rem;
+}
+.cart-item .qty-btn { width: 1.8rem; height: 1.8rem; font-size: 1.1rem; }
+.cart-item .qty-value { min-width: 1.6rem; font-size: 1rem; }
+
+.cart-delete {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0;
+    border: 3px solid white;
+    border-radius: 50%;
+    background-color: #F5F5F5;
+    color: #4a2a3d;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.cart-delete:hover {
+    background-color: #F376A5;
+    color: #F5F5F5;
+    transform: scale(1.1);
+}
+.cart-delete:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; }
+
+.cart-foot {
+    padding: 1rem 1.25rem 1.5rem;
+    background-color: #FFC2E2;
+    border-top: 3px solid white;
+    box-shadow: 0px -4px 7px rgba(0, 0, 0, 0.05);
+}
+.cart-subtotal {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: #4a2a3d;
+}
+.checkout-btn {
+    width: 100%;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #F5F5F5;
+    background-color: #F376A5;
+    border: 3px solid white;
+    border-radius: 50px;
+    padding: 0.75rem 1.2rem;
+    cursor: pointer;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.checkout-btn:hover:not(:disabled) {
+    background-color: #736CED;
+    transform: translateY(-3px);
+    box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.15);
+}
+.checkout-btn:active:not(:disabled) { transform: translateY(0); }
+.checkout-btn:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
+.checkout-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+@media (prefers-reduced-motion: reduce) {
+    body > .cart-drawer.cart-drawer,
+    body > .cart-overlay.cart-overlay { transition: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cart-count.bump { animation: none; }
+}

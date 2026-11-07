@@ -320,7 +320,7 @@ body > :not(.rain):not(.logo-island) {
     .featured-viewport:hover .featured-track { animation-play-state: paused; }
 }
 @keyframes scroll-featured {
-    to { transform: translateX(-50%); }
+    to { transform: translateX(calc(-100% / var(--copies, 2))); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -394,6 +394,38 @@ body > :not(.rain):not(.logo-island) {
     transform: translateY(0);
 }
 
+.catalogue-button {
+    display: inline-block;
+    text-decoration: none;
+    color: #F5F5F5;
+
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.3rem;
+    background-color: #F376A5;
+    border: 3px solid white;
+    border-radius: 50px;
+    padding: 0.8rem 2.2rem;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.catalogue-button:visited {
+    color: #F5F5F5; /* stops visited links turning purple */
+}
+.catalogue-button:hover,
+.catalogue-button:focus-visible {
+    background-color: #736CED;
+    color: #F5F5F5;
+    transform: translateY(-4px);
+    box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.15);
+}
+.catalogue-button:focus-visible {
+    outline: 3px solid #736CED;
+    outline-offset: 3px;
+}
+.catalogue-button:active {
+    transform: translateY(0);
+}
 
 
 .logo-island h1 {

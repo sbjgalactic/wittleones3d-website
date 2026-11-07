@@ -1,0 +1,187 @@
+/* CATALOGUE PAGE - load after style.css */
+
+
+/* HERO */
+.catalogue-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2rem 1.5rem;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #F5F5F5), url(./images/sitebanner.png);
+    background-size: cover;
+    background-position: center;
+}
+.catalogue-hero h1 {
+    font-family: "Bricolage Grotesque";
+    font-weight: 1000;
+    font-size: var(--heading-size);
+    color: #F5F5F5;
+    text-shadow: var(--heading-shadow);
+    text-align: center;
+    margin: 0;
+}
+.catalogue-hero p {
+    font-family: "Libre Baskerville";
+    max-width: 600px;
+    text-align: center;
+    line-height: 1.7;
+    margin: 1rem 0 0;
+}
+
+/* CATEGORY NAV
+   The base stylesheet gives every direct child of body position: relative,
+   so this selector is doubled to win and keep the bar sticky. */
+body > .cat-nav.cat-nav {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+.cat-nav {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background-color: rgba(245, 245, 245, 0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 3px solid white;
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+.cat-nav a {
+    flex-shrink: 0;
+    padding: 0.45rem 1.3rem;
+    border-radius: 50px;
+    border: 3px solid white;
+    background-color: #FFC2E2;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #4a2a3d;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.cat-nav a:hover,
+.cat-nav a:focus-visible {
+    background-color: #F376A5;
+    color: #F5F5F5;
+    transform: translateY(-2px);
+    outline: none;
+}
+.cat-nav a:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; }
+
+/* SECTIONS */
+.catalogue-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem 4rem;
+}
+.cat-section {
+    scroll-margin-top: 4.5rem; /* clears the sticky nav */
+    padding-top: 3rem;
+}
+.cat-section h2 {
+    font-family: "Bricolage Grotesque";
+    font-weight: 1000;
+    font-size: var(--heading-size);
+    color: #F5F5F5;
+    text-shadow: var(--heading-shadow);
+    text-align: center;
+    margin: 0 0 2rem;
+}
+
+/* PRODUCT GRID */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+.product-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFC2E2;
+    border: 3px solid white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0px 12px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 14px 22px rgba(0, 0, 0, 0.15);
+}
+.product-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background-color: #FF90B3;
+    border-bottom: 3px solid white;
+}
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+    padding: 1rem 1.25rem 1.25rem;
+}
+.product-name {
+    margin: 0;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: #4a2a3d;
+}
+.product-price {
+    margin: 0;
+    font-family: "Libre Baskerville";
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #4a2a3d;
+}
+.add-to-cart {
+    margin-top: auto;
+    align-self: stretch;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #F5F5F5;
+    background-color: #F376A5;
+    border: 3px solid white;
+    border-radius: 50px;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.product-info .add-to-cart { margin-top: 0.5rem; }
+
+.add-to-cart:hover {
+    background-color: #736CED;
+    transform: translateY(-3px);
+    box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.15);
+}
+.add-to-cart:active { transform: translateY(0); }
+.add-to-cart:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
+.add-to-cart.added { background-color: #5AC6C3; color: #1f3d3c; }
+
+@media (max-width: 700px) {
+    .catalogue-hero { padding: 3rem 1rem 1rem; }
+    .cat-nav { justify-content: flex-start; }
+    .catalogue-main { padding: 0.5rem 1rem 3rem; }
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .product-info { padding: 0.75rem 0.85rem 1rem; }
+    .product-name { font-size: 1.05rem; }
+    .add-to-cart { font-size: 1rem; padding: 0.5rem 0.8rem; }
+    .qty-btn { width: 2rem; height: 2rem; }
+}
+
+@media (max-width: 400px) {
+    .product-grid { grid-template-columns: 1fr; }
+}
+
+@media (hover: none) {
+    .product-card:hover { transform: none; box-shadow: 0px 12px 10px rgba(0, 0, 0, 0.05); }
+}
