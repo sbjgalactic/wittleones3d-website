@@ -1,0 +1,227 @@
+/* PRODUCT PAGE - load after style.css and cart.css */
+
+.product-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+}
+
+/* back link */
+.back-link {
+    display: inline-block;
+    padding: 0.45rem 1.3rem;
+    border-radius: 50px;
+    border: 3px solid white;
+    background-color: #FFC2E2;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #4a2a3d;
+    text-decoration: none;
+    text-transform: none;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.back-link:visited { color: #4a2a3d; }
+.back-link:hover,
+.back-link:focus-visible {
+    background-color: #F376A5;
+    color: #F5F5F5;
+    transform: translateY(-2px);
+}
+.back-link:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
+
+/* main card: gallery on the left, info on the right */
+.product-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+    margin-top: 1.5rem;
+    padding: 2rem;
+    background-color: #FFC2E2;
+    border: 3px solid white;
+    border-radius: 24px;
+    box-shadow: 0px 12px 10px rgba(0, 0, 0, 0.05);
+}
+.product-detail.product-missing {
+    display: block;
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+/* gallery */
+.product-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+.gallery-main {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background-color: #FF90B3;
+    border: 3px solid white;
+    border-radius: 18px;
+}
+.gallery-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+.gallery-thumb {
+    width: 72px;
+    height: 72px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #FF90B3;
+    border: 3px solid white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.2s ease;
+}
+.gallery-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.gallery-thumb:hover { transform: translateY(-2px); }
+.gallery-thumb.active { border-color: #736CED; }
+.gallery-thumb:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; }
+
+/* info column */
+.product-info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+.product-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.product-tag {
+    padding: 0.25rem 0.9rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: var(--tag-bg, #5AC6C3);
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--tag-text, #1f3d3c);
+}
+.product-category {
+    padding: 0.25rem 0.9rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #4a2a3d;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.product-category:visited { color: #4a2a3d; }
+.product-category:hover,
+.product-category:focus-visible {
+    background-color: #5AC6C3;
+    color: #1f3d3c;
+}
+.product-category:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
+
+.product-title {
+    margin: 0;
+    font-family: "Bricolage Grotesque";
+    font-weight: 1000;
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.1;
+    color: #F5F5F5;
+    text-shadow:
+        -1.5px -1.5px 0 #F376A5,
+         1.5px -1.5px 0 #F376A5,
+        -1.5px  1.5px 0 #F376A5,
+         1.5px  1.5px 0 #F376A5,
+         0px  3px 0 #F376A5;
+}
+.product-detail-price {
+    margin: 0;
+    font-family: "Libre Baskerville";
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: #4a2a3d;
+}
+.product-description {
+    margin: 0;
+    font-family: "Libre Baskerville";
+    line-height: 1.7;
+    color: #4a2a3d;
+}
+
+/* details list */
+.product-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0.25rem 0 0;
+}
+.spec-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 1rem;
+    background-color: #F5F5F5;
+    border: 3px solid white;
+    border-radius: 50px;
+    font-family: "Bricolage Grotesque";
+    color: #4a2a3d;
+}
+.spec-row dt { font-weight: 800; }
+.spec-row dd { margin: 0; text-align: right; }
+
+/* quantity + add to cart */
+.product-buy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+.product-buy .qty-stepper {
+    margin-top: 0;
+    max-width: 220px;
+    gap: 0.5rem;
+}
+.product-add {
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #F5F5F5;
+    background-color: #F376A5;
+    border: 3px solid white;
+    border-radius: 50px;
+    padding: 0.75rem 1.2rem;
+    cursor: pointer;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.product-add:hover {
+    background-color: #736CED;
+    transform: translateY(-3px);
+    box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.15);
+}
+.product-add:active { transform: translateY(0); }
+.product-add:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
+.product-add.added { background-color: #5AC6C3; color: #1f3d3c; }
+
+/* tablets and phones: stack the columns */
+@media (max-width: 800px) {
+    .product-main { padding: 1.5rem 1rem 3rem; }
+    .product-detail {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 1.25rem;
+        gap: 1.5rem;
+    }
+    .product-buy .qty-stepper { max-width: none; }
+}

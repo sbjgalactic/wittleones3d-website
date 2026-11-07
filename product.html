@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product | Wittle Ones 3D</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./cart.css">
+    <link rel="stylesheet" href="./product.css">
+    <link rel="icon" type="image" href="./images/wittleones-transparentbackground.png">
+</head>
+
+<body>
+    <header>
+        <div class="left-header">
+            <img src="./images/wittleones-transparentbackground.png" alt="">
+            <h1>Wittle Ones 3D</h1>
+        </div>
+        <div class="right-header">
+            <a href="./index.html">Home</a>
+            <a href="./about.html">About Us</a>
+            <a href="./catalogue.html">Catalogue</a>
+            <a href="#">
+                <img class="cart-icon" src="./images/carticon.webp">
+            </a>
+        </div>
+    </header>
+
+    <main class="product-main">
+        <a class="back-link" id="back-link" href="./catalogue.html">&larr; Back to catalogue</a>
+        <!-- product.js fills this in from the ?id= in the address -->
+        <article class="product-detail" id="product-detail">
+            <!-- product.js replaces this. If it stays on screen, product.js didn't run. -->
+            <p class="product-description">Loading product&hellip; If this message stays, product.js isn't running. Check that it sits in the same folder as product.html, then look for a red error in the browser console (F12).</p>
+        </article>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="./images/wittleones-transparentbackground.png" alt="Wittle Ones Logo" class="footer-logo">
+                <p>Handcrafted 3D prints made with love.</p>
+            </div>
+
+            <div class="footer-links">
+                <a href="./index.html#about">About Us</a>
+                <a href="./catalogue.html">Catalogue</a>
+                <a href="#">Cart</a>
+                <a href="./index.html#contact">Contact</a>
+            </div>
+        </div>
+
+        <p class="footer-copy">&copy; 2026 Wittle Ones 3D. All rights reserved.</p>
+    </footer>
+
+    <script src="./products.js"></script>
+    <script src="./cart.js"></script>
+    <script src="./product.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>

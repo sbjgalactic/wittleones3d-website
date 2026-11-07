@@ -42,7 +42,6 @@ body > .cat-nav.cat-nav {
     gap: 0.5rem;
     padding: 0.75rem 1rem;
     background-color: rgba(245, 245, 245, 0.92);
-    backdrop-filter: blur(6px);
     border-bottom: 3px solid white;
     box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.05);
     overflow-x: auto;
@@ -78,6 +77,8 @@ body > .cat-nav.cat-nav {
 .cat-section {
     scroll-margin-top: 4.5rem; /* clears the sticky nav */
     padding-top: 3rem;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
 }
 .cat-section h2 {
     font-family: "Bricolage Grotesque";
@@ -109,14 +110,57 @@ body > .cat-nav.cat-nav {
     transform: translateY(-8px);
     box-shadow: 0px 14px 22px rgba(0, 0, 0, 0.15);
 }
-.product-card img {
+
+/* image area (holds the picture and the quick add button) */
+.product-media {
+    position: relative;
+    border-bottom: 3px solid white;
+    background-color: #FF90B3;
+}
+.product-media-link { display: block; }
+.product-media img {
     display: block;
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    background-color: #FF90B3;
-    border-bottom: 3px solid white;
 }
+
+/* quick add: round button in the top right of the image */
+.quick-add {
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0;
+    border: 3px solid white;
+    border-radius: 50%;
+    background-color: #F376A5;
+    color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.quick-add-icon {
+    display: block;
+    width: 1.4rem;
+    height: 1.4rem;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* turns the dark cart icon white */
+}
+.quick-add:hover { background-color: #736CED; transform: scale(1.12); }
+.quick-add:active { transform: scale(0.95); }
+.quick-add:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
+.quick-add.added { background-color: #5AC6C3; color: #1f3d3c; }
+
 .product-info {
     display: flex;
     flex-direction: column;
@@ -131,6 +175,13 @@ body > .cat-nav.cat-nav {
     font-size: 1.25rem;
     color: #4a2a3d;
 }
+.product-name a {
+    color: inherit;
+    text-decoration: none;
+}
+.product-name a:hover,
+.product-name a:focus-visible { text-decoration: underline; }
+.product-name a:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; border-radius: 4px; }
 .product-price {
     margin: 0;
     font-family: "Libre Baskerville";
@@ -138,9 +189,15 @@ body > .cat-nav.cat-nav {
     font-size: 1.1rem;
     color: #4a2a3d;
 }
-.add-to-cart {
+
+/* learn more button (a link that looks like a button) */
+.learn-more {
     margin-top: auto;
     align-self: stretch;
+    display: block;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
     font-family: "Bricolage Grotesque";
     font-weight: 800;
     font-size: 1.1rem;
@@ -149,20 +206,21 @@ body > .cat-nav.cat-nav {
     border: 3px solid white;
     border-radius: 50px;
     padding: 0.6rem 1.2rem;
-    cursor: pointer;
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
-.product-info .add-to-cart { margin-top: 0.5rem; }
-
-.add-to-cart:hover {
+.product-info .learn-more { margin-top: 0.5rem; }
+.product-info .qty-stepper { margin-top: 0.25rem; }
+.learn-more:visited { color: #F5F5F5; }
+.learn-more:hover,
+.learn-more:focus-visible {
     background-color: #736CED;
+    color: #F5F5F5;
     transform: translateY(-3px);
     box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.15);
 }
-.add-to-cart:active { transform: translateY(0); }
-.add-to-cart:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
-.add-to-cart.added { background-color: #5AC6C3; color: #1f3d3c; }
+.learn-more:active { transform: translateY(0); }
+.learn-more:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
 
 @media (max-width: 700px) {
     .catalogue-hero { padding: 3rem 1rem 1rem; }
@@ -174,8 +232,10 @@ body > .cat-nav.cat-nav {
     }
     .product-info { padding: 0.75rem 0.85rem 1rem; }
     .product-name { font-size: 1.05rem; }
-    .add-to-cart { font-size: 1rem; padding: 0.5rem 0.8rem; }
+    .learn-more { font-size: 1rem; padding: 0.5rem 0.8rem; }
     .qty-btn { width: 2rem; height: 2rem; }
+    .quick-add-icon { width: 1.2rem; height: 1.2rem; }
+    .quick-add { width: 2.3rem; height: 2.3rem; font-size: 1.4rem; top: 0.5rem; right: 0.5rem; }
 }
 
 @media (max-width: 400px) {

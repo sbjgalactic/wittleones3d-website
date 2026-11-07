@@ -1,8 +1,11 @@
-/* ============================================================
-   PRODUCTS - edit this list to change what's in the catalogue.
-   category must be: minis, critters, habitats, fidgets or custom
-   image is optional (falls back to the placeholder)
-   ============================================================ */
+const tagColors = {
+    Bestseller: '#ffe7bc',
+    New: '#5AC6C3',
+    Limited: '#736CED',
+    Bees: '#FDBB49',
+    Nature: '#35964a',
+};
+
 const products = [
     // MINIS
     { id: 'mini-1', category: 'minis', name: 'Mini Mushroom', price: 6.00 },
@@ -18,7 +21,27 @@ const products = [
     { id: 'critter-4', category: 'critters', name: 'Sleepy Cat', price: 10.00 },
 
     // HABITATS
-    { id: 'habitat-1', category: 'habitats', image: './images/catalogue-items/habitats/bee-playset.png', name: 'Beehive Habitat', price: 35.00 },
+    {
+        id: 'habitat-1',
+        category: 'habitats',
+        image: './images/catalogue-items/habitats/bee-playset.png',
+        name: 'Beehive Habitat',
+        price: 35.00,
+        images: [
+            './images/catalogue-items/habitats/bee-playset.png',
+            './images/placeholder.png',
+            './images/placeholder.png',
+        ],
+        tags: ['Bees', 'Nature', 'Bestseller'],
+        description: 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc eget nunc. Sed euismod, nisl nec tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc eget nunc.',
+        details: [
+            { label: 'Includes', value: 'Beehive only' },
+            { label: 'Material', value: 'Fortis Filaments PLA Pro and Matte' },
+            { label: 'Size', value: 'idk' },
+            { label: 'Colours', value: 'Yellow, Brown and White' },
+            { label: 'ETA', value: 'Printed to order, ships in 3-5 days' }
+        ]
+    },
     { id: 'habitat-2', category: 'habitats', image: './images/catalogue-items/habitats/cat-playset.png', name: 'Cat Playset Habitat', price: 35.00 },
     { id: 'habitat-3', category: 'habitats', image: './images/catalogue-items/habitats/cow-playset.png', name: 'Country House Habitat', price: 35.00 },
     { id: 'habitat-4', category: 'habitats', image: './images/catalogue-items/habitats/sausagedog-playset.png', name: 'Cozy Christmas Habitat', price: 35.00 },
@@ -46,7 +69,26 @@ const products = [
     { id: 'fidget-4', category: 'fidgets', name: 'Twist Snake', price: 10.00 },
 
     // CHRISTMAS
-    { id: 'christmas-1', category: 'christmas', image: './images/catalogue-items/christmas/gingerbread-house.png', name: 'Gingerbread House Card Set', price: 2.50 },
+    {
+        id: 'christmas-1',
+        category: 'christmas',
+        image: './images/catalogue-items/christmas/gingerbread-house.png',
+        name: 'Gingerbread House Card Set',
+        price: 2.50,
+        images: [
+            './images/catalogue-items/christmas/gingerbread-house.png',
+            './images/placeholder.png',
+            './images/placeholder.png',
+        ],
+        description: 'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc eget nunc. Sed euismod, nisl nec tincidunt lacinia, nunc est aliquam nunc, eget aliquam nisl nunc eget nunc.',
+        details: [
+            { label: 'Includes', value: 'One Gingerbread House Card' },
+            { label: 'Material', value: 'Fortis Filaments PLA Pro and Matte' },
+            { label: 'Size', value: 'idk' },
+            { label: 'Colours', value: 'Choice of Brown, Red, Blue or Pink' },
+            { label: 'ETA', value: 'Printed to order, ships in 1 day' }
+        ]
+    },
     { id: 'christmas-2', category: 'christmas', name: 'christmas Name Plate', price: 15.00 },
     { id: 'christmas-3', category: 'christmas', name: 'christmas Figurine', price: 35.00 },
     { id: 'christmas-4', category: 'christmas', name: 'christmas Request', price: 20.00 }
