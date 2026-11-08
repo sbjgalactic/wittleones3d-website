@@ -245,3 +245,70 @@ body > .cat-nav.cat-nav {
 @media (hover: none) {
     .product-card:hover { transform: none; box-shadow: 0px 12px 10px rgba(0, 0, 0, 0.05); }
 }
+
+
+/* ============================================================
+   CHRISTMAS SECTION - red and green.
+   Change the four colours below to retheme it.
+   Cards alternate red / green, with buttons in the opposite colour.
+   ============================================================ */
+#christmas {
+    --xmas-red: #C8363F;
+    --xmas-red-dark: #9E2630;
+    --xmas-green: #2B8A4E;
+    --xmas-green-dark: #1F6B3A;
+
+    /* heading: red outline with a green drop */
+    --heading-shadow:
+        -2px -2px 0 var(--xmas-red),
+         2px -2px 0 var(--xmas-red),
+        -2px  2px 0 var(--xmas-red),
+         2px  2px 0 var(--xmas-red),
+         0px  5px 0 var(--xmas-green);
+}
+
+#christmas .product-card {
+    --card: var(--xmas-red);
+    --card-dark: var(--xmas-red-dark);
+    --accent: var(--xmas-green);
+    background-color: var(--card);
+}
+#christmas .product-card:nth-child(even) {
+    --card: var(--xmas-green);
+    --card-dark: var(--xmas-green-dark);
+    --accent: var(--xmas-red);
+}
+#christmas .product-media { background-color: var(--card-dark); }
+#christmas .product-name,
+#christmas .product-price { color: #F5F5F5; }
+
+#christmas .learn-more,
+#christmas .quick-add {
+    background-color: var(--accent);
+    color: #F5F5F5;
+}
+#christmas .learn-more:hover,
+#christmas .learn-more:focus-visible,
+#christmas .quick-add:hover {
+    background-color: #F5F5F5;
+    color: var(--card);
+}
+#christmas .quick-add:hover .quick-add-icon { filter: brightness(0) opacity(0.8); } /* dark icon on the white hover */
+#christmas .quick-add.added {
+    background-color: #FDBB49;
+    color: #4a2a1d;
+}
+#christmas .learn-more:focus-visible,
+#christmas .quick-add:focus-visible,
+#christmas .product-name a:focus-visible { outline-color: #FDBB49; }
+
+/* the Christmas pill in the category bar */
+.cat-nav a[href="#christmas"] {
+    background-color: #C8363F;
+    color: #F5F5F5;
+}
+.cat-nav a[href="#christmas"]:hover,
+.cat-nav a[href="#christmas"]:focus-visible {
+    background-color: #2B8A4E;
+    color: #F5F5F5;
+}

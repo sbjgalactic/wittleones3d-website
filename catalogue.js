@@ -23,16 +23,17 @@ function buildCard(product) {
     img.src = product.image || PLACEHOLDER_IMG;
     img.alt = '';
     img.loading = 'lazy';
-    img.decoding = 'async';
     imgLink.appendChild(img);
 
     // quantity stepper (below the price) - the cart button adds this amount
     const stepper = makeStepper(product.name, MIN_QTY, () => {});
+    // products with options (colour, size...) need a choice, so their cart button opens the product page
+    const hasOptions = Array.isArray(product.options) && product.options.length > 0;
 
     const quickAdd = document.createElement('button');
     quickAdd.type = 'button';
     quickAdd.className = 'quick-add';
-    quickAdd.setAttribute('aria-label', 'Add ' + product.name + ' to cart');
+    quickAdd.setAttribute('aria-label', (hasOptions ? 'Choose options for ' : 'Add ') + product.name + (hasOptions ? '' : ' to cart'));
 
     const cartIcon = document.createElement('img');
     cartIcon.src = './images/carticon.webp';
@@ -42,6 +43,7 @@ function buildCard(product) {
 
     let resetTimer;
     quickAdd.addEventListener('click', () => {
+        if (hasOptions) { window.location.href = url; return; }
         const qty = stepper.get();
         addToCart(product.id, qty);
         stepper.set(MIN_QTY);
@@ -79,7 +81,9 @@ function buildCard(product) {
     learnMore.textContent = 'Learn more';
     learnMore.setAttribute('aria-label', 'Learn more about ' + product.name);
 
-    info.append(name, price, stepper.el, learnMore);
+    info.append(name, price);
+    if (!hasOptions) info.appendChild(stepper.el);
+    info.appendChild(learnMore);
     card.append(media, info);
     return card;
 }

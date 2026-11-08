@@ -293,3 +293,25 @@ body > .cart-drawer.open {
 @media (prefers-reduced-motion: reduce) {
     .cart-count.bump { animation: none; }
 }
+
+.cart-item-options {
+    margin: 0;
+    font-family: "Libre Baskerville";
+    font-size: 0.85rem;
+    color: #4a2a3d;
+    opacity: 0.85;
+}
+
+.checkout-error {
+    margin: 0.75rem 0 0;
+    padding: 0.6rem 1rem;
+    background-color: #F5F5F5;
+    border: 3px solid white;
+    border-radius: 18px;
+    text-align: center;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #b3261e;
+}
+.checkout-error[hidden] { display: none; }

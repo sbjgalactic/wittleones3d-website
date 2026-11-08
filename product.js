@@ -35,6 +35,11 @@
     }
 
     document.title = product.name + ' | Wittle Ones 3D';
+
+    // Christmas theme: automatic for the christmas category, or add theme: 'christmas'
+    // to any product in products.js (e.g. the Cozy Christmas Habitat)
+    const theme = product.theme || (product.category === 'christmas' ? 'christmas' : '');
+    if (theme) root.closest('.product-main').classList.add('theme-' + theme);
     backLink.href = './catalogue.html#' + product.category;
     backLink.textContent = '\u2190 Back to ' + product.category;
 
@@ -116,6 +121,48 @@
         info.appendChild(specs);
     }
 
+    /* ---------- option selectors (Colour, Size, ...) ---------- */
+    // product.options = [{ name: 'Colour', choices: ['Pink', { label: 'Blue', color: '#5AC6C3' }] }, ...]
+    // The first choice of each option starts selected.
+    const selected = {};
+    (product.options || []).forEach(opt => {
+        const choices = (opt.choices || []).map(c => typeof c === 'object' ? c : { label: c });
+        if (!opt.name || !choices.length) return;
+        selected[opt.name] = choices[0].label;
+
+        const group = make('div', 'option-group');
+        const heading = make('p', 'option-label');
+        const valueText = make('span', 'option-value', selected[opt.name]);
+        heading.append(document.createTextNode(opt.name + ': '), valueText);
+
+        const row = make('div', 'option-choices');
+        row.setAttribute('role', 'group');
+        row.setAttribute('aria-label', opt.name);
+
+        choices.forEach((choice, i) => {
+            const btn = make('button', 'option-btn');
+            btn.type = 'button';
+            btn.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+            if (choice.color) {
+                const dot = make('span', 'option-swatch');
+                dot.style.backgroundColor = choice.color;
+                dot.setAttribute('aria-hidden', 'true');
+                btn.appendChild(dot);
+            }
+            btn.appendChild(document.createTextNode(choice.label));
+            btn.addEventListener('click', () => {
+                selected[opt.name] = choice.label;
+                valueText.textContent = choice.label;
+                row.querySelectorAll('.option-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+                btn.setAttribute('aria-pressed', 'true');
+            });
+            row.appendChild(btn);
+        });
+
+        group.append(heading, row);
+        info.appendChild(group);
+    });
+
     /* ---------- buy area ---------- */
     const buy = make('div', 'product-buy');
     const stepper = makeStepper(product.name, MIN_QTY, () => {});
@@ -127,7 +174,7 @@
     let resetTimer;
     addBtn.addEventListener('click', () => {
         const qty = stepper.get();
-        addToCart(product.id, qty);
+        addToCart(product.id, qty, Object.assign({}, selected));
         addBtn.textContent = qty > 1 ? 'Added ' + qty + '!' : 'Added!';
         stepper.set(MIN_QTY);
         addBtn.classList.add('added');

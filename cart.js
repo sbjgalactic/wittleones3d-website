@@ -7,6 +7,10 @@
 
    It builds the cart drawer itself, adds the count badge to the header
    cart icon, and makes the cart icon (and any footer "Cart" link) open it.
+
+   Cart lines are { id, qty, options? }. options is an object like
+   { Colour: 'Pink', Size: 'Large' }. The same product with different
+   options is a separate line in the cart.
    ============================================================ */
 const PLACEHOLDER_IMG = './images/placeholder.png';
 const CART_KEY = 'wittleones-cart';
@@ -18,6 +22,19 @@ products.forEach(p => { productsById[p.id] = p; });
 
 function formatPrice(n) {
     return '$' + n.toFixed(2);
+}
+
+/* ---------- cart lines: same product + same options = same line ---------- */
+function optionsKey(options) {
+    const o = options || {};
+    return Object.keys(o).sort().map(k => k + '=' + o[k]).join('|');
+}
+function lineKey(item) {
+    const k = optionsKey(item.options);
+    return k ? item.id + '|' + k : item.id;
+}
+function optionsText(options) {
+    return Object.keys(options || {}).map(k => k + ': ' + options[k]).join(' \u00B7 ');
 }
 
 /* ---------- cart data (saved in the browser so it follows you between pages) ---------- */
@@ -41,24 +58,26 @@ function cartSubtotal() {
     return loadCart().reduce((sum, item) => sum + productsById[item.id].price * item.qty, 0);
 }
 
-function addToCart(id, qty) {
+function addToCart(id, qty, options) {
+    const hasOptions = options && Object.keys(options).length > 0;
+    const newItem = hasOptions ? { id, qty, options } : { id, qty };
     const cart = loadCart();
-    const existing = cart.find(item => item.id === id);
+    const existing = cart.find(item => lineKey(item) === lineKey(newItem));
     if (existing) existing.qty = Math.min(MAX_QTY, existing.qty + qty);
-    else cart.push({ id, qty });
+    else cart.push(newItem);
     saveCart(cart);
     refreshCartUI(true);
 }
-function setCartQty(id, qty) {
+function setCartQty(key, qty) {
     const cart = loadCart();
-    const item = cart.find(i => i.id === id);
+    const item = cart.find(i => lineKey(i) === key);
     if (!item) return;
     item.qty = qty;
     saveCart(cart);
     refreshCartTotals(false);
 }
-function removeFromCart(id) {
-    saveCart(loadCart().filter(item => item.id !== id));
+function removeFromCart(key) {
+    saveCart(loadCart().filter(item => lineKey(item) !== key));
     refreshCartUI(false);
 }
 
@@ -166,6 +185,7 @@ const TRASH_ICON =
 
 function buildCartItem(item) {
     const product = productsById[item.id];
+    const key = lineKey(item);
 
     const li = document.createElement('li');
     li.className = 'cart-item';
@@ -180,21 +200,31 @@ function buildCartItem(item) {
     const name = document.createElement('p');
     name.className = 'cart-item-name';
     name.textContent = product.name;
+    details.appendChild(name);
+
+    // chosen options, e.g. "Colour: Pink · Size: Large"
+    const optText = optionsText(item.options);
+    if (optText) {
+        const opts = document.createElement('p');
+        opts.className = 'cart-item-options';
+        opts.textContent = optText;
+        details.appendChild(opts);
+    }
 
     const price = document.createElement('p');
     price.className = 'cart-item-price';
     price.textContent = formatPrice(product.price);
 
-    const stepper = makeStepper(product.name, item.qty, qty => setCartQty(item.id, qty));
+    const stepper = makeStepper(product.name, item.qty, qty => setCartQty(key, qty));
 
-    details.append(name, price, stepper.el);
+    details.append(price, stepper.el);
 
     const del = document.createElement('button');
     del.type = 'button';
     del.className = 'cart-delete';
     del.setAttribute('aria-label', 'Remove ' + product.name + ' from cart');
     del.innerHTML = TRASH_ICON;
-    del.addEventListener('click', () => removeFromCart(item.id));
+    del.addEventListener('click', () => removeFromCart(key));
 
     li.append(img, details, del);
     return li;
@@ -266,7 +296,44 @@ window.addEventListener('storage', e => {
     }
 });
 
-// "Proceed to checkout" does nothing for now. Hook it up here later:
-// checkoutBtn.addEventListener('click', () => { ... });
+/* ---------- checkout (Stripe) ---------- */
+const checkoutError = document.createElement('p');
+checkoutError.className = 'checkout-error';
+checkoutError.setAttribute('role', 'alert');
+checkoutError.hidden = true;
+drawer.querySelector('.cart-foot').appendChild(checkoutError);
+
+function resetCheckoutBtn() {
+    checkoutBtn.textContent = 'Proceed to checkout';
+    refreshCartTotals(false); // re-enables the button only if the cart has items
+}
+
+checkoutBtn.addEventListener('click', async () => {
+    const cart = loadCart();
+    if (!cart.length) return;
+
+    checkoutError.hidden = true;
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = 'Redirecting to payment…';
+
+    try {
+        const res = await fetch('/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: cart }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.url) throw new Error(data.error || 'Checkout failed');
+        window.location.href = data.url;
+    } catch (err) {
+        console.error(err);
+        checkoutError.textContent = 'Sorry, we couldn\u2019t start checkout. Please try again.';
+        checkoutError.hidden = false;
+        resetCheckoutBtn();
+    }
+});
+
+// pressing Back from Stripe restores this page from cache with the button stuck
+window.addEventListener('pageshow', e => { if (e.persisted) resetCheckoutBtn(); });
 
 refreshCartUI(false);

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank you | Wittle Ones 3D</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./cart.css">
+    <link rel="stylesheet" href="./success.css">
+    <link rel="icon" type="image" href="./images/wittleones-transparentbackground.png">
+</head>
+<body>
+    <header>
+        <div class="left-header">
+            <img src="./images/wittleones-transparentbackground.png" alt="">
+            <h1>Wittle Ones 3D</h1>
+        </div>
+        <div class="right-header">
+            <a href="./index.html">Home</a>
+            <a href="./about.html">About Us</a>
+            <a href="./catalogue.html">Catalogue</a>
+            <a href="#">
+                <img class="cart-icon" src="./images/carticon.webp">
+            </a>
+        </div>
+    </header>
+
+    <main class="success-main">
+        <section class="success-card" aria-labelledby="success-title">
+            <div class="success-badge-wrap">
+                <div class="success-badge" aria-hidden="true">
+                    <svg viewBox="0 0 52 52" width="58" height="58" fill="none" stroke="#F5F5F5"
+                         stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+                        <path class="check-path" d="M14 27 L23 36 L39 17"/>
+                    </svg>
+                </div>
+            </div>
+
+            <h1 id="success-title">Thank you!</h1>
+            <p class="success-lead">Your order is confirmed and your Wittle Ones will be printed and packed with love. A receipt is on its way to your email.</p>
+
+            <ol class="success-steps">
+                <li>
+                    <span class="step-num">1</span>
+                    <h2>Order confirmed</h2>
+                    <p>Your payment went through and we&rsquo;ve got your order.</p>
+                </li>
+                <li>
+                    <span class="step-num">2</span>
+                    <h2>Printed &amp; packed</h2>
+                    <p>Every piece is printed, finished and packed by hand.</p>
+                </li>
+                <li>
+                    <span class="step-num">3</span>
+                    <h2>Check your inbox</h2>
+                    <p>Your receipt is heading to your email now.</p>
+                </li>
+            </ol>
+
+            <div class="success-actions">
+                <a href="./catalogue.html" class="catalogue-button">Keep browsing</a>
+                <a href="./index.html" class="success-secondary">Back to home</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="./images/wittleones-transparentbackground.png" alt="Wittle Ones Logo" class="footer-logo">
+                <p>Handcrafted 3D prints made with love.</p>
+            </div>
+
+            <div class="footer-links">
+                <a href="./index.html#about">About Us</a>
+                <a href="./catalogue.html">Catalogue</a>
+                <a href="#">Cart</a>
+                <a href="./index.html#contact">Contact</a>
+            </div>
+        </div>
+
+        <p class="footer-copy">&copy; 2026 Wittle Ones 3D. All rights reserved.</p>
+    </footer>
+
+    <!-- clear the cart BEFORE cart.js loads so the badge shows 0 -->
+    <script>try { localStorage.removeItem('wittleones-cart'); } catch (e) {}</script>
+    <script src="./products.js"></script>
+    <script src="./cart.js"></script>
+    <!-- confetti rain: delete this line if you'd rather not have it here -->
+    <script src="./script.js"></script>
+</body>
+</html>
