@@ -1,0 +1,671 @@
+/* Deals and offers. Linked from index, catalogue and product pages. */
+[hidden] { display: none !important; }
+
+.price-was { opacity: 0.6; font-weight: 400; margin-left: 0.3rem; }
+
+/* homepage section wrapper */
+.offers-island {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem 1rem;
+}
+.offers-island h1 {
+    margin: 0;
+    font-family: "Bricolage Grotesque";
+    font-weight: 1000;
+    font-size: var(--heading-size);
+    color: #F5F5F5;
+    text-shadow: var(--heading-shadow);
+    text-align: center;
+}
+.deals-sub {
+    margin: -1rem 0 2rem;
+    text-align: center;
+    font-family: "Libre Baskerville";
+    color: #4a2a3d;
+}
+.offers-island .deals-sub { margin: 1rem 0 2rem; }
+
+.offer-price { margin: 0.25rem 0 0; font-family: "Libre Baskerville"; font-weight: 700; font-size: 1.3rem; }
+
+.offer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+.offer-grid { grid-auto-flow: dense; } /* lets cards fill gaps beside the half-width banners */
+.offer-wide { grid-column: span 2; }   /* half the row on desktop */
+
+/* shared pieces */
+.offer-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.1rem 1.25rem 1.25rem;
+}
+.offer-body h3 {
+    margin: 0;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.4rem;
+}
+.offer-body h3 a { color: inherit; text-decoration: none; }
+.offer-blurb { margin: 0; font-family: "Libre Baskerville"; font-size: 0.92rem; line-height: 1.6; }
+.offer-ends-label {
+    margin: 0.35rem 0 0;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.offer-btn {
+    display: block;
+    box-sizing: border-box;
+    margin-top: auto;
+    padding: 0.6rem 1.2rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: #F376A5;
+    color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.offer-btn:visited { color: #F5F5F5; }
+.offer-btn:hover,
+.offer-btn:focus-visible {
+    background-color: #736CED;
+    color: #F5F5F5;
+    transform: translateY(-3px);
+    box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.15);
+}
+.offer-btn:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
+.offer-banner .offer-btn { align-self: flex-start; margin-top: 0.75rem; padding: 0.6rem 2rem; background-color: #736CED; }
+.offer-banner .offer-btn:hover,
+.offer-banner .offer-btn:focus-visible { background-color: #4a2a3d; }
+
+/* TICKET: time left + price in one white panel (same look on every theme) */
+.offer-body { container-type: inline-size; }
+.offer-ticket {
+    display: flex;
+    align-items: stretch;
+    margin-top: 0.5rem;
+    border: 3px solid white;
+    border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.92);
+    color: #4a2a3d;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+    font-family: "Bricolage Grotesque";
+}
+.ticket-time,
+.ticket-price {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.65rem 0.9rem;
+    min-width: 0;
+}
+.ticket-time { flex: 1 1 auto; }
+.ticket-price { flex: 0 0 auto; }
+.ticket-time + .ticket-price { border-left: 3px dashed rgba(74, 42, 61, 0.25); }
+.ticket-label {
+    font-weight: 800;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    opacity: 0.7;
+}
+.ticket-now {
+    font-weight: 1000;
+    font-size: 1.9rem;
+    line-height: 1;
+    color: #C8363F;
+    font-variant-numeric: tabular-nums;
+}
+.ticket-was { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; font-weight: 700; font-size: 0.95rem; }
+.ticket-was s { opacity: 0.55; }
+.offer-ticket .offer-save { margin-left: 0; border-color: #4a2a3d1a; background-color: #2B8A4E; color: #F5F5F5; }
+
+/* countdown digits */
+.countdown { display: flex; align-items: flex-start; gap: 0.2rem; }
+.cd-unit {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 3.2rem;
+    padding: 0.25rem 0.3rem 0.2rem;
+    border-radius: 10px;
+    background-color: #4a2a3d;
+    color: #F5F5F5;
+    text-align: center;
+}
+.cd-unit b { display: block; font-size: 1.35rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.cd-unit small { display: block; font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.8; }
+.cd-sep { align-self: flex-start; padding-top: 0.2rem; font-weight: 1000; font-size: 1.3rem; line-height: 1.1; opacity: 0.45; }
+.countdown.urgent .cd-unit { background-color: #C8363F; animation: cd-pulse 1s ease-in-out infinite; }
+@keyframes cd-pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.06); }
+}
+
+/* not much room: stack time above price */
+@container (max-width: 420px) {
+    .offer-ticket { flex-direction: column; }
+    .ticket-time + .ticket-price { border-left: 0; border-top: 3px dashed rgba(74, 42, 61, 0.25); }
+}
+
+/* DEAL CARD: sale price, shine sweep, wobbling % off badge */
+.deal-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: #FDBB49;
+    color: #4a2a1d;
+    border: 3px solid white;
+    border-radius: 24px;
+    box-shadow: 0px 12px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.deal-card:hover { transform: translateY(-8px); box-shadow: 0px 14px 22px rgba(0, 0, 0, 0.15); }
+.deal-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+    transform: translateX(-120%);
+    animation: deal-shine 4s ease-in-out infinite;
+}
+@keyframes deal-shine {
+    0%, 55% { transform: translateX(-120%); }
+    100%    { transform: translateX(120%); }
+}
+.deal-media {
+    position: relative;
+    display: block;
+    border-bottom: 3px solid white;
+    background-color: #FF90B3;
+}
+.deal-media img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; }
+.deal-off {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    display: grid;
+    place-items: center;
+    width: 3.6rem;
+    height: 3.6rem;
+    border: 3px solid white;
+    border-radius: 50%;
+    background-color: #C8363F;
+    color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 1000;
+    font-size: 1.05rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    animation: deal-wobble 2.4s ease-in-out infinite;
+}
+@keyframes deal-wobble {
+    0%, 100% { transform: rotate(-8deg) scale(1); }
+    50%      { transform: rotate(8deg) scale(1.1); }
+}
+.deal-badge {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    padding: 0.2rem 0.8rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: #F376A5;
+    color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.85rem;
+}
+.deal-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin: 0.2rem 0 0;
+    font-family: "Libre Baskerville";
+    font-weight: 700;
+}
+.deal-price strong { font-size: 1.5rem; color: #C8363F; }
+.deal-price s { opacity: 0.65; }
+.deal-card .cd-unit b { font-size: 1.15rem; }
+.deal-card .cd-sep { font-size: 1.1rem; }
+
+/* PROMO / LIMITED BANNER */
+.offer-banner {
+    --bg: #FFC2E2; --fg: #4a2a3d; --accent: #F376A5; --on-accent: #F5F5F5;
+    --dot: rgba(255, 255, 255, 0.4);
+    --pat: 24px;
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    background-color: var(--bg);
+    color: var(--fg);
+    border: 3px solid white;
+    border-radius: 24px;
+    box-shadow: 0px 12px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+}
+.offer-banner:hover { transform: translateY(-6px); box-shadow: 0px 14px 22px rgba(0, 0, 0, 0.18); }
+
+/* themes */
+.theme-teal   { --bg: #5AC6C3; --fg: #1f3d3c; --accent: #736CED; }
+.theme-purple { --bg: #736CED; --fg: #F5F5F5; --accent: #FDBB49; --on-accent: #4a2a1d; }
+.theme-yellow { --bg: #FDBB49; --fg: #4a2a1d; --accent: #F376A5; }
+.theme-red    { --bg: #C8363F; --fg: #F5F5F5; --accent: #2B8A4E; }
+.theme-green  { --bg: #2B8A4E; --fg: #F5F5F5; --accent: #C8363F; }
+.theme-blue   { --bg: #2f8fd8; --fg: #F5F5F5; --accent: #FDBB49; --on-accent: #4a2a1d; }
+.theme-dark   { --bg: #4a2a3d; --fg: #F5F5F5; --accent: #F376A5; }
+
+/* drifting background pattern, on its own GPU layer */
+.offer-banner::before {
+    content: "";
+    position: absolute;
+    inset: calc(var(--pat) * -1);
+    z-index: 0;
+    pointer-events: none;
+    will-change: transform;
+}
+.pat-dots::before {
+    background-image: radial-gradient(var(--dot) 2.5px, transparent 3px);
+    background-size: var(--pat) var(--pat);
+    animation: pat-move 14s linear infinite;
+}
+.pat-stripes { --pat: 44px; }
+.pat-stripes::before {
+    background-image: linear-gradient(135deg, var(--dot) 25%, transparent 25%, transparent 50%, var(--dot) 50%, var(--dot) 75%, transparent 75%);
+    background-size: var(--pat) var(--pat);
+    animation: pat-move 8s linear infinite;
+}
+@keyframes pat-move { to { transform: translate(var(--pat), var(--pat)); } }
+.offer-banner-media { z-index: 1; }
+
+/* shine sweep */
+.offer-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.4) 50%, transparent 65%);
+    transform: translateX(-120%);
+    animation: deal-shine 5s ease-in-out infinite;
+}
+
+.offer-full { grid-column: 1 / -1; }
+
+.offer-banner-media {
+    position: relative;
+    flex: 0 0 38%;
+    display: block;
+    border-right: 3px solid white;
+    background-color: #FF90B3;
+}
+.offer-banner.img-right { flex-direction: row-reverse; }
+.offer-banner.img-right .offer-banner-media { border-right: 0; border-left: 3px solid white; }
+.offer-banner-media img { display: block; width: 100%; height: 100%; min-height: 240px; object-fit: cover; }
+
+.offer-banner .offer-body {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    min-width: 0; /* lets the body shrink to the card instead of pushing the emojis off the edge */
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.5rem 4.75rem 1.5rem 1.5rem; /* right side leaves room for the sticker emojis */
+}
+.offer-banner .offer-body h3 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
+
+.offer-kicker {
+    align-self: flex-start;
+    padding: 0.2rem 0.9rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: var(--accent);
+    color: var(--on-accent);
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.9rem;
+    transform-origin: 30% 85%;
+    animation: kicker-idle 7s ease-in-out infinite;
+}
+.offer-banner:nth-child(2n) .offer-kicker { animation-delay: -2.4s; }
+.offer-banner:nth-child(3n) .offer-kicker { animation-delay: -4.7s; }
+@keyframes kicker-idle {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    25%      { transform: translateY(-2px) rotate(0.5deg); }
+    50%      { transform: translateY(0) rotate(-1deg); }
+    62%      { transform: rotate(-6deg) scale(1.05); }
+    68%      { transform: rotate(4.5deg) scale(1.04); }
+    74%      { transform: rotate(-3deg) scale(1.02); }
+    80%      { transform: rotate(1.8deg) scale(1.01); }
+    86%      { transform: rotate(-0.8deg) scale(1); }
+    92%      { transform: translateY(0) rotate(-1deg); }
+}
+
+.offer-banner .offer-btn {
+    position: relative;
+    overflow: hidden;
+    align-self: flex-start;
+    margin-top: 0.75rem;
+    padding: 0.6rem 2rem;
+    background-color: var(--accent);
+    color: var(--on-accent);
+}
+.offer-banner .offer-btn:visited { color: var(--on-accent); }
+.offer-banner .offer-btn:hover,
+.offer-banner .offer-btn:focus-visible { background-color: #F5F5F5; color: #4a2a3d; }
+
+/* CONTAINS list */
+.offer-includes ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.35rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+.offer-includes a {
+    display: inline-block;
+    padding: 0.25rem 0.85rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: #F5F5F5;
+    color: #4a2a3d;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.offer-includes a:hover,
+.offer-includes a:focus-visible {
+    background-color: var(--accent);
+    color: var(--on-accent);
+    transform: translateY(-2px);
+    outline: none;
+}
+.offer-includes a:focus-visible { outline: 3px solid #FDBB49; outline-offset: 2px; }
+
+/* sticker emojis: white outline like your headings, no bubble */
+/* the column is centred in the space the body's right padding leaves, with room
+   for the wiggle (scale + rotate) so nothing touches the card's rounded edge */
+.offer-emojis { position: absolute; top: 0; right: 0.35rem; bottom: 0; width: 4rem; pointer-events: none; }
+.offer-emoji {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    transform-origin: center;
+    font-size: 2.1rem;
+    line-height: 1;
+    text-shadow:
+        2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff,
+        2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff,
+        0 5px 6px rgba(0, 0, 0, 0.25);
+    will-change: transform;
+    animation: hero-float 5s ease-in-out infinite;
+}
+.offer-emoji:nth-child(1) { top: 1.3rem; }
+.offer-emoji:nth-child(2) { top: calc(50% - 1.05rem); animation-delay: -1.5s; }
+.offer-emoji:nth-child(3) { bottom: 1.3rem; animation-delay: -3s; }
+.offer-banner:hover .offer-emoji { animation: emoji-wiggle 0.5s ease-in-out infinite; }
+@keyframes emoji-wiggle {
+    0%, 100% { transform: rotate(-12deg) scale(1.1); }
+    50%      { transform: rotate(12deg) scale(1.2); }
+}
+
+/* ambient particles (float / rain / sparkle) */
+.offer-fx { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.fx-bit {
+    position: absolute;
+    left: var(--x);
+    font-size: var(--size);
+    line-height: 1;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+.fx-float .fx-bit { bottom: -2rem; animation: fx-rise var(--dur) linear var(--delay) infinite; }
+.fx-rain .fx-bit  { top: -2rem;    animation: fx-fall var(--dur) linear var(--delay) infinite; }
+.fx-sparkle .fx-bit {
+    top: var(--y);
+    width: var(--size);
+    height: var(--size);
+    background: #fff;
+    clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+    animation: fx-twinkle 2.4s ease-in-out var(--delay) infinite;
+}
+@keyframes fx-rise {
+    0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    10%, 85% { opacity: 0.95; }
+    100% { transform: translate(var(--drift), -440px) rotate(var(--spin)); opacity: 0; }
+}
+@keyframes fx-fall {
+    0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    10%, 85% { opacity: 0.95; }
+    100% { transform: translate(var(--drift), 440px) rotate(var(--spin)); opacity: 0; }
+}
+@keyframes fx-twinkle {
+    0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+    50%      { transform: scale(1) rotate(45deg); opacity: 0.95; }
+}
+
+/* the pop of emojis when you hover a banner */
+.burst-bit {
+    position: absolute;
+    z-index: 5;
+    font-size: 1.6rem;
+    line-height: 1;
+    pointer-events: none;
+    animation: burst 0.8s ease-out forwards;
+}
+@keyframes burst {
+    0%   { transform: translate(-50%, -50%) scale(0.3); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.2) rotate(40deg); opacity: 0; }
+}
+
+.offer-banner .offer-btn { align-self: flex-start; margin-top: 0.75rem; padding: 0.6rem 2rem; background-color: #F376A5; }
+.offer-banner .offer-btn:hover,
+.offer-banner .offer-btn:focus-visible { background-color: #736CED; }
+
+
+.deal-card .offer-ends-label { text-align: center; }
+
+/* emoji explosion from the Promotions tab */
+body > .promo-burst.promo-burst {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    overflow: hidden;
+}
+.promo-burst-bit {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    font-size: var(--size, 1.8rem);
+    line-height: 1;
+    opacity: 0;
+    text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 0 5px 6px rgba(0, 0, 0, 0.25);
+    animation: promo-burst var(--dur, 1.2s) cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+@keyframes promo-burst {
+    0%   { transform: translate(-50%, -50%) scale(0.2) rotate(0deg); opacity: 1; }
+    55%  { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.15) rotate(var(--rot)); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--dx) * 1.1), calc(-50% + var(--dy) + 140px)) scale(0.9) rotate(calc(var(--rot) * 1.6)); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .promo-burst { display: none; } }
+
+.offer-was { opacity: 0.65; margin-left: 0.2rem; font-weight: 400; }
+.offer-save {
+    display: inline-block;
+    margin-left: 0.4rem;
+    padding: 0.1rem 0.7rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: var(--accent);
+    color: var(--on-accent);
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.85rem;
+    vertical-align: middle;
+}
+
+@media (max-width: 700px) {
+    .offers-island { padding: 3rem 1rem 0.5rem; }
+    .offer-grid { grid-template-columns: 1fr; }
+    .offer-wide { grid-column: auto; }
+    .offer-banner, .offer-banner.img-right { flex-direction: column; }
+    .offer-banner-media, .offer-banner.img-right .offer-banner-media { border-left: 0; border-right: 0; border-bottom: 3px solid white; }
+    .offer-wide, .offer-full { grid-column: auto; }
+    .offer-banner .offer-body { padding: 1.25rem 3.75rem 1.25rem 1.25rem; }
+    .offer-emojis { width: 3.4rem; right: 0.25rem; }
+    .offer-emoji { font-size: 1.75rem; }
+}
+@media (hover: none) {
+    .deal-card:hover { transform: none; box-shadow: 0px 12px 10px rgba(0, 0, 0, 0.05); }
+    .offer-banner:hover { transform: none; box-shadow: 0px 12px 10px rgba(0, 0, 0, 0.05); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .deal-card::after { display: none; }
+    .offer-banner::before, .offer-banner::after { animation: none; }
+    .deal-off, .offer-kicker, .countdown.urgent .cd-unit, .offer-emoji { animation: none; }
+    .offer-fx, .burst-bit, .offer-banner::after, .offer-btn::after { display: none; }
+    button.offer-btn { cursor: pointer; }
+    .offer-banner, .offer-emoji { animation: none; }
+}
+
+/* banners that are scrolled out of view stop animating (set by deals.js) */
+.is-offscreen,
+.is-offscreen *,
+.is-offscreen::before,
+.is-offscreen::after { animation-play-state: paused !important; }
+/* ============================================================
+   SET OPTION PICKER (opens from a set's "Choose & add" button)
+   Doubled selector beats style.css's body > * position rule.
+   ============================================================ */
+body > dialog.set-picker.set-picker {
+    position: fixed;
+    z-index: auto;
+    box-sizing: border-box;
+    width: min(560px, calc(100vw - 2rem));
+    max-height: min(85vh, 760px);
+    max-height: min(85dvh, 760px); /* phones: ignore the space the browser bars cover */
+    margin: auto;
+    padding: 0;
+    border: 3px solid white;
+    border-radius: 24px;
+    background-color: #FFC2E2;
+    color: #4a2a3d;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+body > dialog.set-picker[open] { display: flex; flex-direction: column; }
+.set-picker::backdrop { background-color: rgba(74, 42, 61, 0.45); }
+
+.set-picker-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem 0.5rem;
+}
+.set-picker-head h2 { margin: 0; font-family: "Bricolage Grotesque"; font-weight: 1000; font-size: 1.5rem; }
+.set-picker-close {
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 3px solid white;
+    border-radius: 50%;
+    background-color: #F5F5F5;
+    color: #4a2a3d;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+}
+.set-picker-close:hover { background-color: #F376A5; color: #F5F5F5; }
+.set-picker-close:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; }
+
+/* header and footer keep their size; the body takes the rest and scrolls.
+   (flex: 1 with a 0 basis made mobile Safari collapse the body to nothing,
+   leaving only the title and the add button.) */
+.set-picker-head,
+.set-picker-foot { flex-shrink: 0; }
+.set-picker-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 0.25rem 1.25rem 1rem;
+}
+.set-picker-sub { margin: 0; font-family: "Libre Baskerville"; font-size: 0.95rem; }
+
+.set-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0.9rem 1rem;
+    border: 3px solid white;
+    border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.55);
+}
+.set-item-title { display: flex; align-items: center; gap: 0.6rem; }
+.set-item-title img { width: 44px; height: 44px; object-fit: cover; border: 2px solid white; border-radius: 12px; }
+.set-item-title h3 { margin: 0; font-family: "Bricolage Grotesque"; font-weight: 800; font-size: 1.1rem; }
+.set-item-note { margin: -0.3rem 0 0; font-family: "Libre Baskerville"; font-size: 0.82rem; opacity: 0.8; }
+
+.set-opt { display: flex; flex-direction: column; gap: 0.35rem; }
+.set-opt-label { margin: 0; font-family: "Bricolage Grotesque"; font-weight: 800; font-size: 0.95rem; }
+.set-opt-value { font-weight: 600; }
+.set-opt-choices { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.set-choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.95rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: #F5F5F5;
+    color: #4a2a3d;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.set-choice:hover { transform: translateY(-2px); }
+.set-choice[aria-pressed="true"] { background-color: #F376A5; color: #F5F5F5; }
+.set-choice:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; }
+.set-swatch { width: 0.9rem; height: 0.9rem; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px rgba(74, 42, 61, 0.35); }
+.set-opt-input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.45rem 1rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    color: #4a2a3d;
+}
+.set-opt-input.invalid { border-color: #C8363F; }
+.set-opt-input:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; }
+
+.set-picker-foot {
+    padding: 0.85rem 1.25rem 1.1rem;
+    border-top: 3px solid white;
+    background-color: #FFC2E2;
+}
+.set-picker-add { width: 100%; margin-top: 0; cursor: pointer; }

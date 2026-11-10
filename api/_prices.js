@@ -1,33 +1,23 @@
-module.exports.PRICES = {
-  'mini-1':       { name: 'Mini Mushroom', cents: 600 },
-  'critter-1':    { name: 'Capybara', cents: 500 },
+/* Server-side prices.
+   These now come straight from products.js (the same file the website uses),
+   so prices, deals and promo sets are only ever edited in ONE place. */
 
-  'habitat-1':    { name: 'Beehive Habitat', cents: 3500 },
-  'habitat-2':    { name: 'Cat Playset Habitat', cents: 3500 },
-  'habitat-3':    { name: 'Country House Habitat', cents: 3500 },
-  'habitat-5':    { name: 'Alien Abduction Habitat', cents: 3500 },
-  'habitat-6':    { name: 'Bubble Bath Habitat', cents: 3500 },
-  'habitat-7':    { name: 'Firestation Habitat', cents: 3500 },
-  'habitat-8':    { name: 'Flower Garden Habitat', cents: 3500 },
-  'habitat-9':    { name: 'Sauna Habitat', cents: 3500 },
-  'habitat-10':   { name: 'Sand Castle Habitat', cents: 3500 },
-  'habitat-11':   { name: 'Spooky Castle Habitat', cents: 3500 },
-  'habitat-12':   { name: 'Yarn Store Habitat', cents: 3500 },
-  'habitat-13':   { name: 'Jungle Habitat', cents: 3500 },
-  'habitat-14':   { name: 'Watermelon Resort Habitat', cents: 3500 },
-  'habitat-15':   { name: 'Arctic Habitat', cents: 3500 },
-  'habitat-16':   { name: 'Autumn Forest Habitat', cents: 3500 },
-  'habitat-17':   { name: 'Mushroom Stump Habitat', cents: 3500 },
-  'habitat-18':   { name: 'Deep Sea Habitat', cents: 3500 },
-  'habitat-19':   { name: 'Aquarium Habitat', cents: 3500 },
+function load() {
+  const file = require.resolve('../products.js');
+  delete require.cache[file]; // re-run it each time so expired deals and sets drop off
+  return require(file);
+}
+module.exports.load = load;
 
-  'fidget-1':     { name: 'Infinity Cube', cents: 900 },
+// cat is optional: pass the result of load() when looking up many items at once
+module.exports.getItem = function (id, cat) {
+  const { products, bundles } = cat || load();
 
-  'christmas-1':  { name: 'Gingerbread House Card Set', cents: 250 },
-  'christmas-2':  { name: 'Cozy Christmas Habitat', cents: 3500 },
-  'christmas-3':  { name: 'Gingerbread Critter', cents: 500 },
-  'christmas-4':  { name: 'Reindeer Dragon Critter', cents: 500 },
-  'christmas-5':  { name: 'Santa Critter', cents: 500 },
-  'christmas-6':  { name: 'Reindeer Critter', cents: 500 },
-  'christmas-7':  { name: 'Christmas Sausage Dog Critter', cents: 3500 },
+  const p = products.find(x => x.id === id);
+  if (p) return { name: p.name, cents: Math.round(p.price * 100), onOffer: p.originalPrice != null };
+
+  const b = bundles.find(x => x.id === id);
+  if (b) return { name: b.name, cents: Math.round(b.price * 100), contents: b.contentsText, onOffer: true };
+
+  return null;
 };

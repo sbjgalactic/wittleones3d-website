@@ -12,13 +12,14 @@
    { Colour: 'Pink', Size: 'Large' }. The same product with different
    options is a separate line in the cart.
    ============================================================ */
-const PLACEHOLDER_IMG = './images/placeholder.png';
+const PLACEHOLDER_IMG = './images/placeholder.webp';
 const CART_KEY = 'wittleones-cart';
 const MIN_QTY = 1;
 const MAX_QTY = 99;
 
 const productsById = {};
 products.forEach(p => { productsById[p.id] = p; });
+if (typeof bundles !== 'undefined') bundles.forEach(b => { productsById[b.id] = b; });
 
 function formatPrice(n) {
     return '$' + n.toFixed(2);
@@ -58,6 +59,52 @@ function cartSubtotal() {
     return loadCart().reduce((sum, item) => sum + productsById[item.id].price * item.qty, 0);
 }
 
+// the choices a product starts with on its page (typed options start empty, Keychain starts on "No")
+function defaultOptions(product) {
+    const sel = {};
+    (product.options || []).forEach(opt => {
+        if (opt.type === 'text') return;
+        const choices = (opt.choices || []).map(c => typeof c === 'object' ? c : { label: c });
+        if (!opt.name || !choices.length) return;
+        const no = opt.name === 'Keychain' ? choices.find(c => c.label === 'No') : null;
+        sel[opt.name] = (no || choices[0]).label;
+    });
+    return sel;
+}
+
+/* ---------- customer pins ----------
+   Shoppers can pin products they like; pinned ones jump to the top of their
+   category in the catalogue. Saved in this browser only. */
+const PINS_KEY = 'wittleones-pins';
+function loadPins() {
+    try {
+        const ids = JSON.parse(localStorage.getItem(PINS_KEY)) || [];
+        return Array.isArray(ids) ? ids.filter(id => productsById[id]) : [];
+    } catch (e) {
+        return [];
+    }
+}
+function isPinned(id) {
+    return loadPins().includes(id);
+}
+// returns true if the product is now pinned
+function togglePin(id) {
+    const pins = loadPins();
+    const i = pins.indexOf(id);
+    if (i >= 0) pins.splice(i, 1); else pins.unshift(id); // newest pin first
+    try { localStorage.setItem(PINS_KEY, JSON.stringify(pins)); } catch (e) {}
+    return i < 0;
+}
+
+// dark or light text, whichever is readable on the given background colour
+function readableTextOn(hex) {
+    let h = String(hex).replace('#', '');
+    if (h.length === 3) h = h.split('').map(c => c + c).join('');
+    if (!/^[0-9a-f]{6}$/i.test(h)) return '#F5F5F5';
+    const [r, g, b] = [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16));
+    return (r * 299 + g * 587 + b * 114) / 1000 > 150 ? '#4a2a3d' : '#F5F5F5';
+}
+
 function addToCart(id, qty, options) {
     const hasOptions = options && Object.keys(options).length > 0;
     const newItem = hasOptions ? { id, qty, options } : { id, qty };
@@ -80,8 +127,13 @@ function removeFromCart(key) {
     saveCart(loadCart().filter(item => lineKey(item) !== key));
     refreshCartUI(false);
 }
+function clearCart() {
+    saveCart([]);
+    refreshCartUI(false);
+}
 
-/* ---------- quantity stepper (used on product cards and in the cart) ---------- */
+/* ---------- quantity stepper (used on product cards and in the cart) ----------
+   Click the number to type an amount (e.g. 99) instead of pressing + lots of times. */
 function makeStepper(label, value, onChange) {
     const el = document.createElement('div');
     el.className = 'qty-stepper';
@@ -94,9 +146,13 @@ function makeStepper(label, value, onChange) {
     minus.textContent = '\u2212';
     minus.setAttribute('aria-label', 'Decrease quantity');
 
-    const display = document.createElement('span');
+    const display = document.createElement('input');
+    display.type = 'text';
+    display.inputMode = 'numeric';
+    display.maxLength = 3;
+    display.autocomplete = 'off';
     display.className = 'qty-value';
-    display.setAttribute('aria-live', 'polite');
+    display.setAttribute('aria-label', 'Quantity of ' + label + ' (type a number)');
 
     const plus = document.createElement('button');
     plus.type = 'button';
@@ -106,16 +162,30 @@ function makeStepper(label, value, onChange) {
 
     function set(n) {
         value = Math.min(MAX_QTY, Math.max(MIN_QTY, n));
-        display.textContent = value;
+        display.value = value;
         minus.disabled = value === MIN_QTY;
         plus.disabled = value === MAX_QTY;
     }
-    minus.addEventListener('click', () => { set(value - 1); onChange(value); });
-    plus.addEventListener('click', () => { set(value + 1); onChange(value); });
+    // reads whatever has been typed, clamps it to 1-99, and tells the page if it changed
+    function commit() {
+        const typed = parseInt(display.value, 10);
+        const before = value;
+        set(isNaN(typed) ? value : typed);
+        if (value !== before) onChange(value);
+    }
+
+    minus.addEventListener('click', () => { commit(); set(value - 1); onChange(value); });
+    plus.addEventListener('click', () => { commit(); set(value + 1); onChange(value); });
+    display.addEventListener('focus', () => setTimeout(() => display.select(), 0));
+    display.addEventListener('input', () => { display.value = display.value.replace(/\D/g, ''); });
+    display.addEventListener('blur', commit);
+    display.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); commit(); display.blur(); }
+    });
     set(value);
 
     el.append(minus, display, plus);
-    return { el, get: () => value, set };
+    return { el, get: () => { commit(); return value; }, set };
 }
 
 /* ---------- build the drawer ---------- */
@@ -138,6 +208,7 @@ drawer.innerHTML =
     '<div class="cart-foot">' +
         '<div class="cart-subtotal"><span>Subtotal</span><span id="cart-subtotal">$0.00</span></div>' +
         '<button type="button" class="checkout-btn" id="checkout-btn">Proceed to checkout</button>' +
+        '<button type="button" class="clear-cart-btn" id="clear-cart-btn">Clear cart</button>' +
     '</div>';
 
 document.body.append(cartOverlay, drawer);
@@ -147,6 +218,7 @@ const emptyMsg = drawer.querySelector('#cart-empty');
 const subtotalEl = drawer.querySelector('#cart-subtotal');
 const checkoutBtn = drawer.querySelector('#checkout-btn');
 const closeBtn = drawer.querySelector('#cart-close');
+const clearBtn = drawer.querySelector('#clear-cart-btn');
 
 /* ---------- cart triggers + badge ---------- */
 // every header cart icon, plus any footer link that says "Cart"
@@ -211,6 +283,13 @@ function buildCartItem(item) {
         details.appendChild(opts);
     }
 
+    if (product.contentsText) {
+        const inc = document.createElement('p');
+        inc.className = 'cart-item-options';
+        inc.textContent = product.contentsText;
+        details.appendChild(inc);
+    }
+
     const price = document.createElement('p');
     price.className = 'cart-item-price';
     price.textContent = formatPrice(product.price);
@@ -248,7 +327,10 @@ function refreshCartTotals(bump) {
     }
     subtotalEl.textContent = formatPrice(cartSubtotal());
     emptyMsg.hidden = count > 0;
+    clearBtn.hidden = count === 0;
     checkoutBtn.disabled = count === 0;
+    updateDeliveryUI();
+    refreshDiscount(); // re-checks the discount code against the new cart
 }
 
 function refreshCartUI(bump) {
@@ -288,6 +370,24 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && drawer.classList.contains('open')) closeCart();
 });
 
+/* ---------- clear cart (two-step so it can't be hit by accident) ---------- */
+let clearTimer;
+function resetClearBtn() {
+    delete clearBtn.dataset.confirm;
+    clearBtn.textContent = 'Clear cart';
+}
+clearBtn.addEventListener('click', () => {
+    if (clearBtn.dataset.confirm === 'true') {
+        clearTimeout(clearTimer);
+        resetClearBtn();
+        clearCart();
+        return;
+    }
+    clearBtn.dataset.confirm = 'true';
+    clearBtn.textContent = 'Tap again to confirm';
+    clearTimer = setTimeout(resetClearBtn, 3000);
+});
+
 // keep other open tabs/pages in sync when the cart changes
 window.addEventListener('storage', e => {
     if (e.key === CART_KEY) {
@@ -317,23 +417,204 @@ checkoutBtn.addEventListener('click', async () => {
     checkoutBtn.textContent = 'Redirecting to payment…';
 
     try {
+        const items = cart.map(i => ({
+            ...i,
+            expectedCents: Math.round(productsById[i.id].price * 100),
+        }));
         const res = await fetch('/api/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items: cart }),
+            body: JSON.stringify({
+                items,
+                delivery,
+                code: appliedCode,
+                returnTo: location.pathname + location.search,
+            }),
         });
         const data = await res.json();
+        if (res.status === 409 || res.status === 422) { const e = new Error(data.error); e.show = true; throw e; }
         if (!res.ok || !data.url) throw new Error(data.error || 'Checkout failed');
         window.location.href = data.url;
     } catch (err) {
         console.error(err);
-        checkoutError.textContent = 'Sorry, we couldn\u2019t start checkout. Please try again.';
+        checkoutError.textContent = err.show ? err.message : 'Sorry, we couldn\u2019t start checkout. Please try again.';
         checkoutError.hidden = false;
         resetCheckoutBtn();
     }
 });
 
+/* ---------- discount code ----------
+   The codes live on the server (api/_codes.js) so visitors can't read them.
+   The page just asks the server whether a code works for this cart. */
+const CODE_KEY = 'wittleones-code';
+let appliedCode = '';
+try { appliedCode = localStorage.getItem(CODE_KEY) || ''; } catch (e) {}
+let codeInfo = null;   // last answer from the server: { code, label, cents, freeShipping }
+let codeError = '';    // why the applied code isn't currently working (e.g. minimum spend)
+let discountTimer;
+let discountToken = 0;
+
+function saveCode() {
+    try {
+        if (appliedCode) localStorage.setItem(CODE_KEY, appliedCode);
+        else localStorage.removeItem(CODE_KEY);
+    } catch (e) {}
+}
+
+async function checkCode(code) {
+    const res = await fetch('/api/check-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, items: loadCart() }),
+    });
+    return res.json();
+}
+
+const codeBox = document.createElement('div');
+codeBox.className = 'code-box';
+codeBox.innerHTML =
+    '<div class="code-row">' +
+        '<input type="text" class="code-input" id="code-input" placeholder="Discount code" ' +
+            'autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Discount code">' +
+        '<button type="button" class="code-btn" id="code-btn">Apply</button>' +
+    '</div>' +
+    '<p class="code-msg" id="code-msg" role="status" hidden></p>';
+const codeInput = codeBox.querySelector('#code-input');
+const codeBtn = codeBox.querySelector('#code-btn');
+const codeMsg = codeBox.querySelector('#code-msg');
+
+function setCodeMsg(text, ok) {
+    codeMsg.textContent = text || '';
+    codeMsg.hidden = !text;
+    codeMsg.classList.toggle('ok', !!ok);
+}
+
+function updateCodeUI() {
+    codeInput.disabled = !!appliedCode;
+    codeBtn.textContent = appliedCode ? 'Remove' : 'Apply';
+    if (!appliedCode) return;
+    codeInput.value = appliedCode;
+    if (cartCount() === 0) setCodeMsg('');
+    else if (codeInfo) setCodeMsg('\u2713 ' + codeInfo.code + ' applied' + (codeInfo.label ? ': ' + codeInfo.label : ''), true);
+    else if (codeError) setCodeMsg(codeError, false);
+    else setCodeMsg('');
+}
+
+// re-checks the applied code whenever the cart changes (a short delay so typing a quantity isn't spammy)
+function refreshDiscount() {
+    clearTimeout(discountTimer);
+    const token = ++discountToken;
+    if (!appliedCode || cartCount() === 0) { codeInfo = null; codeError = ''; return; }
+    discountTimer = setTimeout(async () => {
+        try {
+            const data = await checkCode(appliedCode);
+            if (token !== discountToken) return; // a newer check is already on its way
+            if (data.ok) { codeInfo = data; codeError = ''; }
+            else { codeInfo = null; codeError = data.error || ''; }
+        } catch (e) {
+            return; // couldn't reach the server: keep showing what we had
+        }
+        updateDeliveryUI();
+    }, 250);
+}
+
+codeBtn.addEventListener('click', async () => {
+    if (appliedCode) { // "Remove"
+        appliedCode = '';
+        codeInfo = null;
+        codeError = '';
+        saveCode();
+        codeInput.value = '';
+        setCodeMsg('');
+        updateDeliveryUI();
+        codeInput.focus();
+        return;
+    }
+    const typed = codeInput.value.trim();
+    if (!typed) { setCodeMsg('Type a code first.'); return; }
+
+    codeBtn.disabled = true;
+    setCodeMsg('Checking\u2026');
+    try {
+        const data = await checkCode(typed);
+        if (data.ok) {
+            appliedCode = data.code;
+            codeInfo = data;
+            codeError = '';
+            saveCode();
+        } else {
+            setCodeMsg(data.error || 'That code isn\u2019t valid.');
+        }
+    } catch (e) {
+        setCodeMsg('Couldn\u2019t check that code. Please try again.');
+    }
+    codeBtn.disabled = false;
+    updateDeliveryUI();
+});
+codeInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); codeBtn.click(); }
+});
+codeInput.addEventListener('input', () => setCodeMsg(''));
+
+/* ---------- delivery: ship or pickup ---------- */
+const SHIPPING_CENTS = 1500;   // display only; the real charge is set in api/create-checkout-session.js
+const FREE_SHIPPING_OVER = 0;  // cents, 0 = never free
+let delivery = 'ship';
+try { delivery = localStorage.getItem('wittleones-delivery') === 'pickup' ? 'pickup' : 'ship'; } catch (e) {}
+
+const deliveryBox = document.createElement('div');
+deliveryBox.className = 'delivery-options';
+deliveryBox.innerHTML =
+    '<label class="delivery-opt"><input type="radio" name="delivery" value="ship">' +
+        '<span>Ship to me</span><span class="delivery-cost" id="ship-cost"></span></label>' +
+    '<label class="delivery-opt"><input type="radio" name="delivery" value="pickup">' +
+        '<span>Pickup</span><span class="delivery-cost">Free</span></label>' +
+    '<div class="delivery-discount" id="cart-discount" hidden>' +
+        '<span id="cart-discount-label">Discount</span><span id="cart-discount-amt"></span></div>' +
+    '<div class="delivery-total"><span>Total</span><span id="cart-total">$0.00</span></div>';
+const cartFoot = drawer.querySelector('.cart-foot');
+cartFoot.insertBefore(codeBox, cartFoot.querySelector('.checkout-btn'));
+cartFoot.insertBefore(deliveryBox, cartFoot.querySelector('.checkout-btn'));
+
+function shippingCents() {
+    const sub = Math.round(cartSubtotal() * 100);
+    return (FREE_SHIPPING_OVER > 0 && sub >= FREE_SHIPPING_OVER) ? 0 : SHIPPING_CENTS;
+}
+function updateDeliveryUI() {
+    const d = (appliedCode && codeInfo && cartCount() > 0) ? codeInfo : null;
+    let ship = shippingCents();
+    if (d && d.freeShipping) ship = 0;
+
+    deliveryBox.querySelector('#ship-cost').textContent = ship ? '+' + formatPrice(ship / 100) : 'Free';
+    const extra = (delivery === 'ship' && cartCount() > 0) ? ship / 100 : 0;
+    const off = d ? d.cents / 100 : 0;
+
+    const row = deliveryBox.querySelector('#cart-discount');
+    row.hidden = !(d && (off > 0 || (d.freeShipping && delivery === 'ship')));
+    deliveryBox.querySelector('#cart-discount-label').textContent = 'Discount' + (d ? ' (' + d.code + ')' : '');
+    deliveryBox.querySelector('#cart-discount-amt').textContent = off > 0 ? '\u2212' + formatPrice(off) : 'Free shipping';
+
+    deliveryBox.querySelector('#cart-total').textContent = formatPrice(Math.max(0, cartSubtotal() - off + extra));
+    deliveryBox.querySelectorAll('input').forEach(r => { r.checked = r.value === delivery; });
+    updateCodeUI();
+}
+deliveryBox.querySelectorAll('input').forEach(r => {
+    r.addEventListener('change', () => {
+        delivery = r.value;
+        try { localStorage.setItem('wittleones-delivery', delivery); } catch (e) {}
+        updateDeliveryUI();
+    });
+});
+
 // pressing Back from Stripe restores this page from cache with the button stuck
-window.addEventListener('pageshow', e => { if (e.persisted) resetCheckoutBtn(); });
+window.addEventListener('pageshow', e => {
+    if (e.persisted) { resetCheckoutBtn(); refreshCartUI(false); }
+});
 
 refreshCartUI(false);
+
+// coming back from Stripe lands on page#cart, so show the cart straight away
+if (location.hash === '#cart') {
+    history.replaceState(null, '', location.pathname + location.search);
+    openCart();
+}

@@ -1,7 +1,7 @@
 (function () {
     const colors = ['#F5F5F5', '#5AC6C3', '#FFC2E2', '#F376A5', '#736CED', '#FDBB49'];
     const shapes = ['dot', 'confetti', 'sparkle'];
-    const count = 100; // raise or lower for more or fewer pieces
+    const count = window.matchMedia('(max-width: 700px)').matches ? 20 : 40;
 
     const rain = document.createElement('div');
     rain.className = 'rain';
@@ -80,3 +80,22 @@ document.querySelectorAll('.photo-card').forEach(card => {
     });
     card.addEventListener('mouseleave', () => card.classList.remove('dismissed'));
 });
+
+/* hero tagline: rotating word */
+(function () {
+    const el = document.getElementById('hero-rotator');
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const words = ['critters', 'habitats', 'fidgets', 'minis', 'little treasures'];
+    const colors = [['#5AC6C3', '#1f3d3c'], ['#F376A5', '#F5F5F5'], ['#FDBB49', '#4a2a1d'], ['#736CED', '#F5F5F5'], ['#FFC2E2', '#4a2a3d']];
+    let i = 0;
+    function paint() {
+        el.textContent = words[i];
+        el.style.setProperty('--w-bg', colors[i][0]);
+        el.style.setProperty('--w-fg', colors[i][1]);
+    }
+    paint();
+    setInterval(() => {
+        el.classList.add('is-out');
+        setTimeout(() => { i = (i + 1) % words.length; paint(); el.classList.remove('is-out'); }, 350);
+    }, 2800);
+})();

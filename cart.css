@@ -73,6 +73,73 @@
     font-size: 1.15rem;
     color: #4a2a3d;
 }
+/* the number is a text box: click it and type e.g. 99 */
+input.qty-value {
+    box-sizing: content-box;
+    width: 2ch;
+    padding: 0.1rem 0.3rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    cursor: text;
+    appearance: textfield;
+}
+input.qty-value:hover { border-color: rgba(74, 42, 61, 0.25); }
+input.qty-value:focus { outline: none; border-color: #736CED; background-color: #F5F5F5; }
+
+/* discount code box in the cart */
+.code-box { margin-bottom: 0.75rem; }
+.code-row { display: flex; gap: 0.5rem; }
+.code-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 1rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #4a2a3d;
+    text-transform: uppercase;
+}
+.code-input::placeholder { text-transform: none; color: rgba(74, 42, 61, 0.55); }
+.code-input:disabled { opacity: 0.8; }
+.code-input:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; }
+.code-btn {
+    padding: 0.5rem 1.1rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: #736CED;
+    color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.code-btn:hover:not(:disabled) { background-color: #F376A5; }
+.code-btn:disabled { opacity: 0.6; cursor: wait; }
+.code-btn:focus-visible { outline: 3px solid #FDBB49; outline-offset: 2px; }
+.code-msg {
+    margin: 0.4rem 0 0;
+    padding: 0 0.5rem;
+    font-family: "Bricolage Grotesque";
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #C8363F;
+}
+.code-msg.ok { color: #2B8A4E; }
+.code-msg[hidden] { display: none; }
+.delivery-discount {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    color: #2B8A4E;
+}
+.delivery-discount[hidden] { display: none; }
 
 /* ============================================================
    CART DRAWER
@@ -315,3 +382,63 @@ body > .cart-drawer.open {
     color: #b3261e;
 }
 .checkout-error[hidden] { display: none; }
+
+.delivery-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+.delivery-opt {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+    background-color: #F5F5F5;
+    border: 3px solid white;
+    border-radius: 50px;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    color: #4a2a3d;
+    cursor: pointer;
+}
+.delivery-opt input { accent-color: #F376A5; }
+.delivery-opt:has(input:checked) { background-color: #F376A5; color: #F5F5F5; }
+.delivery-opt:has(input:checked) input { accent-color: #F5F5F5; }
+.delivery-cost { margin-left: auto; font-weight: 600; }
+.delivery-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem 0;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #4a2a3d;
+}
+
+.clear-cart-btn {
+    display: block;
+    margin: 0.75rem auto 0;
+    padding: 0.4rem 1.2rem;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1rem;
+    color: #4a2a3d;
+    background-color: transparent;
+    border: 3px solid transparent;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.clear-cart-btn[hidden] { display: none; }
+.clear-cart-btn:hover,
+.clear-cart-btn:focus-visible {
+    background-color: #F5F5F5;
+    color: #b3261e;
+    outline: none;
+}
+.clear-cart-btn[data-confirm="true"] {
+    background-color: #F5F5F5;
+    border-color: white;
+    color: #b3261e;
+}

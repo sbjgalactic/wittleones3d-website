@@ -264,6 +264,65 @@
 .product-add:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
 .product-add.added { background-color: #5AC6C3; color: #1f3d3c; }
 
+.product-pin {
+    align-self: flex-start;
+    padding: 0.4rem 1.1rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: #F5F5F5;
+    color: #4a2a3d;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.product-pin:hover { transform: translateY(-2px); }
+.product-pin[aria-pressed="true"] { background-color: #736CED; color: #F5F5F5; }
+.product-pin:focus-visible { outline: 3px solid #736CED; outline-offset: 3px; }
+
+/* "add its critters" box on habitats with defaultCritters */
+.default-critters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+    padding: 1rem 1.1rem 1.1rem;
+    border: 3px solid white;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.35);
+}
+.default-critters-list { display: flex; flex-direction: column; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+.default-critters-list { gap: 0.6rem; }
+.default-critters-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.4rem 0.75rem; }
+.default-critters-controls { display: flex; align-items: center; gap: 0.6rem; margin-left: auto; }
+.default-critters-controls .qty-stepper { margin-top: 0; gap: 0.3rem; padding: 0.15rem; }
+.default-critters-controls .qty-btn { width: 1.7rem; height: 1.7rem; font-size: 1rem; }
+.default-critters-controls .qty-value { min-width: 1.5rem; font-size: 0.95rem; }
+.price-total { font-size: 0.8em; font-weight: 400; }
+.default-critters-list a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: inherit;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    text-decoration: none;
+}
+.default-critters-list a:hover span { text-decoration: underline; }
+.default-critters-list img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border: 2px solid white;
+    border-radius: 12px;
+    background-color: #FFC2E2;
+}
+.default-critters-price { font-family: "Bricolage Grotesque"; font-weight: 800; white-space: nowrap; }
+.default-critters-btn { font-size: 1.05rem; background-color: #736CED; }
+.default-critters-btn:hover { background-color: #F376A5; }
+.default-critters-btn.added { background-color: #5AC6C3; color: #1f3d3c; }
+
 /* tablets and phones: stack the columns */
 @media (max-width: 800px) {
     .product-main { padding: 1.5rem 1rem 3rem; }
@@ -349,3 +408,23 @@
 .theme-christmas .gallery-thumb:focus-visible,
 .theme-christmas .option-btn:focus-visible,
 .theme-christmas .product-add:focus-visible { outline-color: #FDBB49; }
+
+.option-input {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 360px;
+    padding: 0.55rem 1.1rem;
+    border: 3px solid white;
+    border-radius: 50px;
+    background-color: #F5F5F5;
+    font-family: "Bricolage Grotesque";
+    font-weight: 800;
+    font-size: 1rem;
+    color: #4a2a3d;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
+}
+.option-input::placeholder { color: #4a2a3d; opacity: 0.45; font-weight: 600; }
+.option-input:focus-visible { outline: 3px solid #736CED; outline-offset: 2px; }
+.option-input.invalid { border-color: #C8363F; }
+.option-help { margin: 0; font-family: "Libre Baskerville"; font-size: 0.85rem; color: #4a2a3d; opacity: 0.85; }
+.theme-christmas .option-help { color: #F5F5F5; }

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page not found | Wittle Ones 3D</title>
+    <!-- root-absolute paths (/style.css) so this page works no matter which broken URL it is shown on -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/cart.css">
+    <link rel="icon" type="image/png" href="/images/wittleones-transparentbackground.png">
+    <style>
+        .notfound-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5rem 1.5rem 6rem;
+            min-height: 50vh;
+        }
+        .notfound-main h1 {
+            font-family: "Bricolage Grotesque";
+            font-weight: 1000;
+            font-size: clamp(5rem, 28vw, 11rem);
+            line-height: 1;
+            color: #F5F5F5;
+            text-shadow: var(--heading-shadow);
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+        .notfound-card {
+            background-color: #FFC2E2;
+            border: 3px solid white;
+            border-radius: 24px;
+            box-shadow: 0px 12px 10px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem 2rem;
+            max-width: 640px;
+            text-align: center;
+            margin-top: -1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .notfound-card h2 {
+            margin: 1rem 0 0;
+            font-family: "Bricolage Grotesque";
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: #4a2a3d;
+        }
+        .notfound-card p {
+            font-family: "Libre Baskerville";
+            line-height: 1.7;
+            color: #4a2a3d;
+        }
+        .notfound-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        @media (max-width: 700px) {
+            .notfound-main { padding: 3rem 1rem 4rem; }
+            .notfound-card { padding: 2rem 1.25rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="left-header">
+            <img src="/images/wittleones-transparentbackground.png" alt="">
+            <h1>Wittle Ones 3D</h1>
+        </div>
+        <div class="right-header">
+            <a href="/index.html">Home</a>
+            <a href="/about.html">About Us</a>
+            <a href="/catalogue.html">Catalogue</a>
+            <a href="#">
+                <img class="cart-icon" src="/images/carticon.webp" alt="Cart">
+            </a>
+        </div>
+    </header>
+
+    <main class="notfound-main">
+        <h1>404</h1>
+        <div class="notfound-card">
+            <h2>Oops! Page Not Found</h2>
+            <p>We couldn’t find the page you were looking for. The link might be out of date or mistyped, but plenty of tiny treasures are still waiting for you.</p>
+            <div class="notfound-actions">
+                <a class="catalogue-button" href="/index.html">Back to home</a>
+                <a class="catalogue-button" href="/catalogue.html">Browse the catalogue</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="/images/wittleones-transparentbackground.png" alt="Wittle Ones Logo" class="footer-logo">
+                <p>Handcrafted 3D prints made with love.</p>
+            </div>
+
+            <div class="footer-links">
+                <a href="/index.html#about">About Us</a>
+                <a href="/catalogue.html">Catalogue</a>
+                <a href="#">Cart</a>
+                <a href="/index.html#contact">Contact</a>
+            </div>
+        </div>
+
+        <p class="footer-copy">&copy; 2026 Wittle Ones 3D. All rights reserved.</p>
+    </footer>
+
+    <script src="/products.js"></script>
+    <script src="/cart.js"></script>
+</body>
+</html>

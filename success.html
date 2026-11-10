@@ -47,13 +47,13 @@
                 </li>
                 <li>
                     <span class="step-num">2</span>
-                    <h2>Printed &amp; packed</h2>
-                    <p>Every piece is printed, finished and packed by hand.</p>
+                    <h2>Check your inbox</h2>
+                    <p>Your receipt is heading to your email now.</p>
                 </li>
                 <li>
                     <span class="step-num">3</span>
-                    <h2>Check your inbox</h2>
-                    <p>Your receipt is heading to your email now.</p>
+                    <h2>Printed &amp; packed</h2>
+                    <p>Every piece is printed, finished and packed by hand.</p>
                 </li>
             </ol>
 
@@ -83,7 +83,7 @@
     </footer>
 
     <!-- clear the cart BEFORE cart.js loads so the badge shows 0 -->
-    <script>try { localStorage.removeItem('wittleones-cart'); } catch (e) {}</script>
+    <script>try { if (location.search.includes('session_id=')) localStorage.removeItem('wittleones-cart'); } catch (e) {}</script>
     <script src="./products.js"></script>
     <script src="./cart.js"></script>
     <!-- confetti rain: delete this line if you'd rather not have it here -->

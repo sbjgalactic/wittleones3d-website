@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalogue | Wittle Ones 3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="./images/sitebanner.webp">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./cart.css">
     <link rel="stylesheet" href="./catalogue.css">
+    <link rel="stylesheet" href="./deals.css">
     <link rel="icon" type="image" href="./images/wittleones-transparentbackground.png">
 </head>
 
@@ -28,18 +32,86 @@
 
     <div class="catalogue-hero">
         <h1>Catalogue</h1>
-        <p>Every one of our products is printed, finished and packed by hand. Pick a category to start browsing!</p>
+        <div class="hero-card">
+            <p>Every one of our products is printed, finished and packed by hand. Pick a category to start browsing!</p>
+            <ul class="hero-pills">
+                <li id="hero-count">Loading…</li>
+                <li>Printed by hand</li>
+                <li>Pick a category &darr;</li>
+            </ul>
+        </div>
     </div>
 
     <nav class="cat-nav" aria-label="Catalogue categories">
-        <a href="#minis">Minis</a>
-        <a href="#critters">Critters</a>
-        <a href="#habitats">Habitats</a>
-        <a href="#fidgets">Fidgets</a>
-        <a href="#christmas">Christmas</a>
+        <div class="cat-nav-bar">
+            <div class="cat-nav-links">
+                <a href="#deals" id="nav-deals" hidden>Promotions</a>
+                <a href="#minis">Minis</a>
+                <a href="#critters">Critters</a>
+                <a href="#habitats">Habitats</a>
+                <a href="#fidgets">Fidgets</a>
+                <a href="#christmas">Christmas</a>
+            </div>
+            <div class="cat-nav-tools">
+                <button type="button" class="filter-toggle" id="filter-toggle" aria-expanded="false" aria-controls="filter-panel">
+                    Filter <span class="filter-count" id="filter-count" hidden>0</span>
+                </button>
+                <button type="button" class="cart-btn" id="nav-cart" aria-label="Open cart">
+                    <img src="./images/carticon.webp" alt="" width="24" height="24">
+                </button>
+            </div>
+        </div>
+
+        <div class="filter-panel" id="filter-panel" hidden>
+        <div class="filter-head">
+            <span id="filter-summary"></span>
+            <button type="button" class="filter-clear" id="filter-clear">Clear all</button>
+        </div>
+
+        <div class="filter-row">
+            <label class="filter-field filter-search">
+                <span>Search</span>
+                <input type="search" id="filter-text" placeholder="Name, description, colour or tag" autocomplete="off">
+            </label>
+            <div class="filter-field">
+                <span>Price ($)</span>
+                <div class="price-inputs">
+                    <input type="number" id="filter-min" min="0" step="0.5" inputmode="decimal" placeholder="Min" aria-label="Minimum price">
+                    <span aria-hidden="true">to</span>
+                    <input type="number" id="filter-max" min="0" step="0.5" inputmode="decimal" placeholder="Max" aria-label="Maximum price">
+                </div>
+            </div>
+            <label class="filter-field">
+                <span>Sort by</span>
+                <select id="filter-sort" class="filter-sort">
+                    <option value="default">Name: A to Z</option>
+                    <option value="name-desc">Name: Z to A</option>
+                    <option value="price-asc">Price: low to high</option>
+                    <option value="price-desc">Price: high to low</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="filter-mode" role="group" aria-label="How filters are combined">
+            <span>Show products that match</span>
+            <button type="button" class="mode-btn" id="mode-and" aria-pressed="true">All filters</button>
+            <button type="button" class="mode-btn" id="mode-or" aria-pressed="false">Any filter</button>
+            <button type="button" class="mode-btn pins-btn" id="filter-pins" aria-pressed="false">
+                &#128204; My pins <span class="pins-count" id="pins-count">0</span>
+            </button>
+        </div>
+
+        <div class="filter-chips" id="filter-chips"></div>
+    </div>
     </nav>
 
     <main class="catalogue-main">
+        <section class="cat-section" id="deals" aria-labelledby="deals-title" hidden>
+            <h2 id="deals-title">Promotions</h2>
+            <p class="deals-sub">Limited time offers. Grab them while they last!</p>
+            <div class="offer-grid" id="offer-grid"></div>
+        </section>
+
         <section class="cat-section" id="minis">
             <h2>Minis</h2>
             <div class="product-grid" data-category="minis"></div>
@@ -64,6 +136,7 @@
             <h2>Christmas</h2>
             <div class="product-grid" data-category="christmas"></div>
         </section>
+        <p class="no-results" id="no-results" hidden>Nothing matches those filters. Try removing one!</p>
     </main>
 
     <footer>
@@ -84,9 +157,10 @@
         <p class="footer-copy">&copy; 2026 Wittle Ones 3D. All rights reserved.</p>
     </footer>
 
+    <script src="./script.js"></script>
     <script src="./products.js"></script>
     <script src="./cart.js"></script>
+    <script src="./deals.js"></script>
     <script src="./catalogue.js"></script>
-    <script src="./script.js"></script>
 </body>
 </html>
