@@ -1,11 +1,13 @@
 const { getItem, load } = require('./_prices');
 const { findCode, calcDiscount } = require('./_codes');
+const readBody = require('./_body');
 
 // POST { code, items } -> { ok, code, label, cents, freeShipping } or { ok: false, error }
 module.exports = function checkCode(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
   try {
-    const items = Array.isArray(req.body.items) ? req.body.items : [];
+    const body = readBody(req);
+    const items = Array.isArray(body.items) ? body.items : [];
     const cat = load();
     const lines = [];
     items.forEach(i => {
@@ -15,7 +17,7 @@ module.exports = function checkCode(req, res) {
       lines.push({ cents: p.cents, qty, onOffer: p.onOffer });
     });
 
-    const c = findCode(req.body.code);
+    const c = findCode(body.code);
     if (!c) return res.json({ ok: false, error: 'That code isn\u2019t valid or has expired.' });
 
     const r = calcDiscount(c, lines);
@@ -23,7 +25,7 @@ module.exports = function checkCode(req, res) {
 
     res.json({ ok: true, code: c.code, label: c.label || '', cents: r.cents, freeShipping: r.freeShipping });
   } catch (e) {
-    console.error('Code check error:', e.message);
+    console.error('Code check error:', e.stack || e.message);
     res.status(400).json({ ok: false, error: 'Could not check that code.' });
   }
 };

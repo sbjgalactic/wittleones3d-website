@@ -2,6 +2,7 @@ const Stripe = require('stripe');
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const { getItem, load } = require('./_prices');
 const { findCode, calcDiscount } = require('./_codes');
+const readBody = require('./_body');
 
 const SHIPPING_CENTS = 1500;
 const FREE_SHIPPING_OVER_CENTS = 0;
@@ -18,9 +19,10 @@ function safeReturnPath(p) {
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();
   try {
-    const items = Array.isArray(req.body.items) ? req.body.items : [];
+    const body = readBody(req);
+    const items = Array.isArray(body.items) ? body.items : [];
     if (!items.length) return res.status(400).json({ error: 'Cart is empty' });
-    const delivery = req.body.delivery === 'pickup' ? 'pickup' : 'ship';
+    const delivery = body.delivery === 'pickup' ? 'pickup' : 'ship';
 
     const cat = load();
     let subtotal = 0;
@@ -72,13 +74,13 @@ module.exports = async (req, res) => {
       metadata: { delivery },
       payment_intent_data: { metadata: { delivery } },
       success_url: `${base}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${base}${safeReturnPath(req.body.returnTo)}#cart`, // #cart reopens the cart drawer
+      cancel_url: `${base}${safeReturnPath(body.returnTo)}#cart`, // #cart reopens the cart drawer
     };
 
     // discount code: checked again here, never trusted from the browser
     let discount = null;
-    if (req.body.code) {
-      const c = findCode(req.body.code);
+    if (body.code) {
+      const c = findCode(body.code);
       if (!c) {
         const err = new Error('Bad code');
         err.code = 'BAD_CODE';
