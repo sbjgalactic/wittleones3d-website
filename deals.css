@@ -165,8 +165,9 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background-color: #FDBB49;
-    color: #4a2a1d;
+    --bg: #FDBB49; --fg: #4a2a1d; /* default yellow; a theme: in products.js overrides these */
+    background-color: var(--bg);
+    color: var(--fg);
     border: 3px solid white;
     border-radius: 24px;
     box-shadow: 0px 12px 10px rgba(0, 0, 0, 0.05);

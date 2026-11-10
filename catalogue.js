@@ -294,8 +294,9 @@ document.querySelectorAll('.product-grid').forEach(grid => {
 });
 
 /* ---------- sort order (inside each category) ----------
-   Default = the shopper's own pins first (newest pin on top), then
-   pinned: true products from products.js, then everything A to Z. */
+   Every sort keeps pinned stuff on top: the shopper's own pins first, then
+   pinned: true products from products.js, then everything else. Each group is
+   sorted by the chosen sort (Default = newest pin on top, then A to Z). */
 let pinRank = new Map();
 function readPins() {
     pinRank = new Map(loadPins().map((id, i) => [id, i]));
@@ -304,14 +305,18 @@ readPins();
 const pinScore = c => (pinRank.has(c.id) ? pinRank.get(c.id) : Infinity);
 const byName = (a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base', numeric: true });
 const SORTS = {
-    default:      (a, b) => (pinScore(a) - pinScore(b)) || (b.pinned - a.pinned) || byName(a, b),
+    default:      (a, b) => (pinScore(a) - pinScore(b)) || byName(a, b),
     'name-desc':  (a, b) => byName(b, a),
     'price-asc':  (a, b) => a.price - b.price || a.order - b.order,
     'price-desc': (a, b) => b.price - a.price || a.order - b.order,
 };
+// pinned stuff always stays on top, whatever the sort:
+// 0 = the shopper's pins, 1 = pinned: true in products.js, 2 = everything else
+const pinGroup = c => (pinRank.has(c.id) ? 0 : c.pinned ? 1 : 2);
 let sortMode = 'default';
 function applySort() {
-    const cmp = SORTS[sortMode] || SORTS.default;
+    const sort = SORTS[sortMode] || SORTS.default;
+    const cmp = (a, b) => (pinGroup(a) - pinGroup(b)) || sort(a, b);
     grids.forEach(({ grid, list }) => {
         const frag = document.createDocumentFragment();
         list.slice().sort(cmp).forEach(c => frag.appendChild(c.el));
@@ -427,7 +432,7 @@ function refreshPins() {
     readPins();
     pinsCount.textContent = pinRank.size;
     if (pinsOnly && !pinRank.size) pinsOnly = false;
-    if (sortMode === 'default') applySort();
+    applySort();
     applyFilters();
 }
 

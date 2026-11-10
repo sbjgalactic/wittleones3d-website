@@ -271,7 +271,7 @@
 
     /* ---------- DEAL card (one product on sale) ---------- */
     function dealCard(o, product) {
-        const card = make('article', 'deal-card');
+        const card = make('article', 'deal-card' + (o.theme ? ' theme-' + o.theme : ''));
         const was = product.originalPrice != null ? product.originalPrice : product.price;
         const pct = Math.round((1 - product.price / was) * 100);
 

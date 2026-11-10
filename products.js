@@ -466,7 +466,7 @@ const products = [
             './images/catalogue-items/critters/pet-carrier3.webp'
         ],
         name: 'Pet Carrier',
-        price: 5.00,
+        price: 8.00,
         images: [
             './images/catalogue-items/critters/pet-carrier.webp',
             './images/catalogue-items/critters/pet-carrier2.webp',
@@ -2574,7 +2574,7 @@ const products = [
 
    badge:      'Hot 🔥!'   a tag on the front of the catalogue card (top left of the picture)
    badgeColor: '#736CED'   optional background for that tag (default fiery orange)
-   pinned:     true        always shown first in its category (under "Featured" sort) */
+   pinned:     true        always shown first in its category, whatever the sort (after the shopper's own pins) */
 products.forEach(p => {
     if (Array.isArray(p.image)) {
         p.cardImages = p.image.filter(Boolean);
@@ -2701,6 +2701,20 @@ const offers = [
         buttonLink: './product.html?id=christmas-7',
         ends: '2026-12-25T23:59:59+10:00',
         emojis: ['🐶', '🎅', '🧣', '🎄'],
+        order: 2,
+    },
+    {
+        id: 'pet-carrier-deal',
+        type: 'deal',
+        productId: 'critter-8',
+        salePrice: 8.00,
+        badge: 'Featured',
+        blurb: 'The perfect little container for all critter sizes! Available in a whole range of colours.',
+        button: 'Take a closer look',
+        buttonLink: './product.html?id=critter-8',
+        ends: '2026-12-25T23:59:59+10:00',
+        emojis: ['🐶', '🐰', '🐟', '🐦'],
+        theme: 'blue',
         order: 2,
     },
 
