@@ -2712,7 +2712,6 @@ const offers = [
         blurb: 'The perfect little container for all critter sizes! Available in a whole range of colours.',
         button: 'Take a closer look',
         buttonLink: './product.html?id=critter-8',
-        ends: '2026-12-25T23:59:59+10:00',
         emojis: ['🐶', '🐰', '🐟', '🐦'],
         theme: 'blue',
         order: 2,
