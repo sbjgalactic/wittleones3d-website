@@ -35,7 +35,10 @@ function lineKey(item) {
     return k ? item.id + '|' + k : item.id;
 }
 function optionsText(options) {
-    return Object.keys(options || {}).map(k => k + ': ' + options[k]).join(' \u00B7 ');
+    // "Keychain: No" is the default, so it's only worth showing when it's a yes
+    return Object.keys(options || {})
+        .filter(k => !(k === 'Keychain' && options[k] === 'No'))
+        .map(k => k + ': ' + options[k]).join(' \u00B7 ');
 }
 
 /* ---------- cart data (saved in the browser so it follows you between pages) ---------- */
