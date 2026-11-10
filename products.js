@@ -734,7 +734,7 @@ const products = [
             './images/catalogue-items/critters/snake-critter3.webp',
         ],
         name: 'Snake',
-        price: 5.00,
+        price: 7.50,
         images: [
             './images/catalogue-items/critters/snake-critter.webp',
             './images/catalogue-items/critters/snake-critter2.webp',
