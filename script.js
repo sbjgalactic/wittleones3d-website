@@ -85,7 +85,7 @@ document.querySelectorAll('.photo-card').forEach(card => {
 (function () {
     const el = document.getElementById('hero-rotator');
     if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const words = ['critters', 'habitats', 'fidgets', 'minis', 'little treasures'];
+    const words = ['critters', 'habitats', 'fidgets', 'minis'];
     const colors = [['#5AC6C3', '#1f3d3c'], ['#F376A5', '#F5F5F5'], ['#FDBB49', '#4a2a1d'], ['#736CED', '#F5F5F5'], ['#FFC2E2', '#4a2a3d']];
     let i = 0;
     function paint() {

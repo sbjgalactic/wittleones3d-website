@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="./images/wittleones-transparentbackground.png" />
+    <title>Contact | Wittle Ones 3D</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./cart.css">
+    <link rel="stylesheet" href="./pages.css">
+    <link rel="icon" type="image/png" href="./images/wittleones-transparentbackground.png">
+</head>
+
+<body>
+    <header>
+        <div class="left-header">
+            <img src="./images/wittleones-transparentbackground.png" alt="">
+            <h1>Wittle Ones 3D</h1>
+        </div>
+        <div class="right-header">
+            <a href="./index.html">Home</a>
+            <a href="./about.html">About Us</a>
+            <a href="./catalogue.html">Catalogue</a>
+            <a href="./contact.html" aria-current="page">Contact</a>
+            <a href="#">
+                <img class="cart-icon" src="./images/carticon.webp" alt="Cart">
+            </a>
+        </div>
+    </header>
+
+    <main class="page-main">
+        <h1 class="page-title">Contact Us!</h1>
+        <div class="page-card">
+            <p>Have a question, a special request or an idea for a new item? We’d love to hear from you! Send us a message and we’ll get back to you as soon as we can.</p>
+        </div>
+
+        <div class="contact-grid">
+            <aside class="contact-panel">
+                <h2>Say hi</h2>
+                <p>The quickest way to reach us is by email.</p>
+                <div class="socials">
+                    <a href="mailto:wittleones3d@gmail.com" class="social-link">
+                        <img src="./images/handle-logos/email.png" alt="">
+                        <span>wittleones3d@gmail.com</span>
+                    </a>
+                </div>
+
+                <ul class="reasons">
+                    <li>Questions about a product or your order</li>
+                    <li>Custom colours or special requests</li>
+                    <li>Ideas for new critters and habitats</li>
+                    <li>Photos of your Wittle Ones collection</li>
+                </ul>
+            </aside>
+
+            <section class="contact-panel" aria-labelledby="form-title">
+                <h2 id="form-title">Send a message</h2>
+                <form class="contact-form" id="contact-form" novalidate>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="cf-name">Your name</label>
+                            <input type="text" id="cf-name" name="name" autocomplete="name" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="cf-email">Your email</label>
+                            <input type="email" id="cf-email" name="email" autocomplete="email" required>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="cf-topic">What’s it about?</label>
+                        <select id="cf-topic" name="topic">
+                            <option>General question</option>
+                            <option>An existing order</option>
+                            <option>Custom or special request</option>
+                            <option>Idea for a new item</option>
+                            <option>Something else</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="cf-message">Message</label>
+                        <textarea id="cf-message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="catalogue-button">Send message</button>
+                    <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+                    <p class="form-note">Pressing send opens your email app with your message ready to go.</p>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="./images/wittleones-transparentbackground.png" alt="Wittle Ones Logo" class="footer-logo">
+                <p>Handcrafted 3D prints made with love.</p>
+            </div>
+
+            <div class="footer-links">
+                <a href="./about.html">About Us</a>
+                <a href="./catalogue.html">Catalogue</a>
+                <a href="#">Cart</a>
+                <a href="./contact.html">Contact</a>
+            </div>
+        </div>
+
+        <p class="footer-copy">&copy; 2026 Wittle Ones 3D. All rights reserved.</p>
+    </footer>
+
+    <script src="./products.js"></script>
+    <script src="./cart.js"></script>
+    <script src="./script.js"></script>
+    <script>
+    /* contact form: no backend, so build a mailto link from the fields */
+    (function () {
+        const form = document.getElementById('contact-form');
+        const status = document.getElementById('form-status');
+        const TO = 'wittleones3d@gmail.com';
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const f = id => document.getElementById(id);
+            const name = f('cf-name').value.trim();
+            const email = f('cf-email').value.trim();
+            const message = f('cf-message').value.trim();
+            const topic = f('cf-topic').value;
+
+            let firstBad = null;
+            [[f('cf-name'), name], [f('cf-email'), email && f('cf-email').checkValidity()], [f('cf-message'), message]].forEach(([el, ok]) => {
+                el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+                if (!ok && !firstBad) firstBad = el;
+            });
+            if (firstBad) {
+                status.dataset.kind = 'error';
+                status.textContent = 'Please fill in your name, a valid email and a message.';
+                firstBad.focus();
+                return;
+            }
+
+            const subject = topic + ' - from ' + name;
+            const body = message + '\n\n' + name + '\n' + email;
+            status.dataset.kind = 'ok';
+            status.textContent = 'Opening your email app… If nothing happens, email us at ' + TO + '.';
+            location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        });
+    })();
+    </script>
+</body>
+</html>
