@@ -291,7 +291,7 @@
         body.appendChild(title);
         if (o.blurb) body.appendChild(make('p', 'offer-blurb', o.blurb));
 
-        const ticket = makeTicket(o, card, { now: product.price, was, label: 'Sale price' });
+        const ticket = makeTicket(o, card, { now: product.price, was, label: was > product.price ? 'Sale price' : 'Price' });
         if (ticket) body.appendChild(ticket);
 
         const action = makeAction(o, { single: product, set: null });

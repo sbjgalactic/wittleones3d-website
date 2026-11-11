@@ -587,6 +587,7 @@ const products = [
                 { label: 'No',   color: '#ff3131' },
             ]
         },
+        { name: 'Bowtie Colour', type: 'text', maxLength: 20, placeholder: 'e.g. Pink', required: false},
         ],
     },
     {
@@ -796,7 +797,7 @@ const products = [
         price: 5.00,
         images: [
             './images/catalogue-items/critters/dalmatian-critter.webp',
-            './images/catalogue-items/critters/dalmatian-critter2.webp',
+            './images/catalogue-items/critters/dalmatian-critter2.png',
         ],
         tags: ['Pets', 'Fire', 'Keychain', 'Customisable'],
         description: 'Spotted and sensational! This dalmatian can be a classic pup or a brave fireman, ready for action.',
@@ -2739,7 +2740,8 @@ function offerLive(o, now = Date.now()) {
 offers.forEach(o => {
     if (o.type !== 'deal' || !offerLive(o)) return;
     const p = products.find(x => x.id === o.productId);
-    if (p && o.salePrice != null) { p.originalPrice = p.price; p.price = o.salePrice; }
+    // only a real discount gets a crossed-out "was" price (a 'Featured' deal at full price shows just one price)
+    if (p && o.salePrice != null && o.salePrice < p.price) { p.originalPrice = p.price; p.price = o.salePrice; }
 });
 
 // promos/limited offers with several items (or their own price) become a "set" product
