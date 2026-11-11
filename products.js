@@ -2270,6 +2270,24 @@ const products = [
             { label: 'Small parts', value: 'Not suitable for children under 3' },
         ],
     },
+    {
+        id: 'fidget-3',
+        category: 'fidgets',
+        image: './images/catalogue-items/fidgets/chubby-star-clicker2.webp',
+        name: 'Chubby Star Clicker',
+        price: 8.00,
+        images: [
+            './images/catalogue-items/fidgets/chubby-star-clicker.webp',
+            './images/catalogue-items/fidgets/chubby-star-clicker.webp2',
+        ],
+        description: 'A satisfying fidget toy that provides a unique tactile experience. Perfect for stress relief and focus enhancement.',
+        tags: ['Fidget', 'Interactable', 'Relaxing', 'Customisable', 'New'],
+        details: [
+            { label: 'Includes', value: '1 large star fidget' },
+            { label: 'Material', value: 'PLA Pro' },
+            { label: 'Small parts', value: 'Not suitable for children under 3' },
+        ],
+    },
 
     
     // CHRISTMAS SECTION
