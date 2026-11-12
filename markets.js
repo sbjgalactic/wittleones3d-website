@@ -36,4 +36,16 @@ const marketEvents = [
     //     emojis: ['🎪', '🎄'],
     //     theme: 'teal',
     // },
+
+    { title: 'Heights College Christmas Market',
+         date: '2026-11-16T08:00:00+10:00',
+         ends: '2026-11-21T13:20:00+10:00',
+         location: 'Heights College',
+         address: '276 Carlton St, Rockhampton QLD',
+         blurb: 'Come down to the library before school and at 2nd break to see the Wittle Ones collection in person! (Heights students only)',
+         badge: 'Exclusive Event',
+      //   link: 'https://example.com/market',
+         emojis: ['🎪', '🎄'],
+         theme: 'red',
+    }
 ];
