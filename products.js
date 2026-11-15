@@ -1,3 +1,122 @@
+/* ============================================================
+   PAGE THEMES - recolour a product's whole page
+   ============================================================
+   Give any product   pageTheme: 'ocean'   (or 'page-theme': 'ocean')
+   and its product page uses that theme's colours below.
+
+   Every colour is optional; anything you leave out keeps the normal
+   pink Wittle Ones colour. Add as many themes as you like.
+
+     background   page background behind everything
+     header       header + footer bar
+     headerText   text/links in the header + footer
+     card         the big product card
+     cardDark     behind the product photos
+     text         writing on the card (price, description, labels)
+     accent       title outline, buttons, selected options
+     accentText   writing on top of accent-coloured buttons
+     accent2      button hover + focus outlines
+     rain         list of glitter/confetti colours
+   ============================================================ */
+const pageThemes = {
+    ocean: {
+        background: '#E6F5FF',
+        header: '#9FD8FF',
+        headerText: '#1D3B52',
+        card: '#BFE6FF',
+        cardDark: '#7CC4F0',
+        text: '#1D3B52',
+        accent: '#2F8FD8',
+        accentText: '#F5F5F5',
+        accent2: '#5AC6C3',
+        rain: ['#2F8FD8', '#5BB8FF', '#A9DCFF', '#FFFFFF', '#5AC6C3'],
+    },
+    jungle: {
+        background: '#EEF8E6',
+        header: '#A8DB8C',
+        headerText: '#1E3B22',
+        card: '#C6EBB0',
+        cardDark: '#8FCF6B',
+        text: '#1E3B22',
+        accent: '#2EA36B',
+        accentText: '#F5F5F5',
+        accent2: '#FDBB49',
+        rain: ['#2EA36B', '#8FCF6B', '#C6D94A', '#FDBB49', '#FFFFFF'],
+    },
+    sunset: {
+        background: '#FFF3E6',
+        header: '#FFC58F',
+        headerText: '#4A2A1D',
+        card: '#FFD9B3',
+        cardDark: '#FFB066',
+        text: '#4A2A1D',
+        accent: '#FF5A3C',
+        accentText: '#F5F5F5',
+        accent2: '#F376A5',
+        rain: ['#FF5A3C', '#FF8C42', '#FDBB49', '#F376A5', '#FFFFFF'],
+    },
+    space: {
+        background: '#ECEAFF',
+        header: '#B9B2FF',
+        headerText: '#221E4A',
+        card: '#CFCAFF',
+        cardDark: '#8E7DFF',
+        text: '#221E4A',
+        accent: '#736CED',
+        accentText: '#F5F5F5',
+        accent2: '#FDBB49',
+        rain: ['#736CED', '#8E7DFF', '#D9A7FF', '#FDBB49', '#FFFFFF'],
+    },
+    watermelon: {
+        background: '#FFF0F2',
+        header: '#FF9AA8',
+        headerText: '#3B1F24',
+        card: '#FFC4CC',
+        cardDark: '#FF6B81',
+        text: '#3B1F24',
+        accent: '#2B8A4E',
+        accentText: '#F5F5F5',
+        accent2: '#FF6B81',
+        rain: ['#FF6B81', '#2B8A4E', '#A4F376', '#FFFFFF', '#3B1F24'],
+    },
+    jurassic: {
+        background: '#F3F0E2',
+        header: '#B7C98A',
+        headerText: '#2E2A16',
+        card: '#D5DFB0',
+        cardDark: '#7CCF5A',
+        text: '#2E2A16',
+        accent: '#5C7A2E',
+        accentText: '#F5F5F5',
+        accent2: '#D9822B',
+        rain: ['#7CCF5A', '#5C7A2E', '#D9822B', '#F5D79A', '#FFFFFF'],
+    },
+    starry: {
+        background: '#FFF8E1',
+        header: '#FFDA7A',
+        headerText: '#4A2A1D',
+        card: '#FFE7A6',
+        cardDark: '#FDBB49',
+        text: '#4A2A1D',
+        accent: '#E29A12',
+        accentText: '#FFFFFF',
+        accent2: '#736CED',
+        rain: ['#FDBB49', '#FFD84D', '#FFFFFF', '#736CED', '#F376A5'],
+    },
+    christmas: {
+        background: '#F4F1EA',
+        header: '#C8363F',
+        headerText: '#F5F5F5',
+        card: '#E8A5A9',
+        cardDark: '#9E2630',
+        text: '#3A1215',
+        accent: '#2B8A4E',
+        accentText: '#F5F5F5',
+        accent2: '#FDBB49',
+        rain: ['#C8363F', '#2B8A4E', '#FDBB49', '#FFFFFF'],
+    },
+};
+
 const tagColors = {
     Bestseller: '#ffe7bc',
     New: '#5AC6C3',
@@ -1697,11 +1816,12 @@ const products = [
             ]
         }]
     },
-        {
+    {
         id: 'critter-47',
         category: 'critters',
         image: './images/catalogue-items/critters/monkey-critter.webp',
         name: 'Monkey',
+        pageTheme: 'jungle',
         price: 5.00,
         badge: 'New 🐒',
         badgeColor: '#5AC6C3',
@@ -1726,6 +1846,81 @@ const products = [
                 { label: 'No',   color: '#ff3131' },
             ]
         }]
+    },
+    {
+        id: 'critter-48',
+        category: 'critters',
+        image: './images/catalogue-items/critters/astronaut-critter.webp',
+        name: 'Astronaut',
+        pageTheme: 'space',
+        price: 5.00,
+        badge: 'New 🪐',
+        badgeColor: '#9e5ac6',        
+        images: [
+            './images/catalogue-items/critters/astronaut-critter.webp',
+            './images/catalogue-items/critters/astronaut-critter2.webp',
+            './images/catalogue-items/critters/astronaut-critter3.webp'
+        ],
+        tags: ['Fantasy', 'Space', 'New', 'Keychain'],
+        description: 'Touchdown in 3, 2, 1!',
+        details: [
+            { label: 'Includes', value: '1 astronaut critter' },
+            { label: 'Material', value: 'PLA Pro and Matte' },
+            { label: 'Small parts', value: 'Not suitable for children under 3' },
+        ],
+
+        options: [
+        {
+            name: 'Keychain',
+            choices: [
+                { label: 'Yes', color: '#49fd70' },
+                { label: 'No',   color: '#ff3131' },
+            ]
+        },
+        {
+            name: 'Helmet',
+            choices: [
+                { label: 'On', color: '#49fd70' },
+                { label: 'Off',   color: '#ff3131' },
+            ]
+        }, ]
+    },
+    {
+        id: 'critter-49',
+        category: 'critters',
+        image: './images/catalogue-items/critters/alien-critter.webp',
+        name: 'Alien',
+        pageTheme: 'space',
+        price: 5.00,
+        badge: 'New 🪐',
+        badgeColor: '#9e5ac6',        
+        images: [
+            './images/catalogue-items/critters/alien-critter.webp',
+            './images/catalogue-items/critters/alien-critter2.webp'
+        ],
+        tags: ['Fantasy', 'Space', 'New', 'Keychain'],
+        description: 'Touchdown in 3, 2, 1!',
+        details: [
+            { label: 'Includes', value: '1 alien critter' },
+            { label: 'Material', value: 'PLA Pro and Matte' },
+            { label: 'Small parts', value: 'Not suitable for children under 3' },
+        ],
+
+        options: [
+        {
+            name: 'Keychain',
+            choices: [
+                { label: 'Yes', color: '#49fd70' },
+                { label: 'No',   color: '#ff3131' },
+            ]
+        },
+        {
+            name: 'Question Mark',
+            choices: [
+                { label: 'Yes', color: '#49fd70' },
+                { label: 'No',   color: '#ff3131' },
+            ]
+        }, ]
     },
 
 
@@ -1797,6 +1992,7 @@ const products = [
         category: 'habitats',
         image: './images/catalogue-items/habitats/alien-playset.webp',
         name: 'Alien Abduction Habitat',
+        pageTheme: 'space',
         price: 35.00,
         badge: 'New 🛸',
         badgeColor: '#5AC6C3',
@@ -1904,14 +2100,13 @@ const products = [
         image: './images/catalogue-items/habitats/sandcastle-playset2.webp',
         name: 'Sand Castle Habitat',
         price: 35.00,
-        badge: 'New 🏖️',
         badgeColor: '#5AC6C3',
         images: [
             './images/catalogue-items/habitats/sandcastle-playset.webp',
             './images/catalogue-items/habitats/sandcastle-playset2.webp',
             './images/catalogue-items/habitats/sandcastle-playset3.webp',
         ],
-        tags: ['Beach', 'Summer', 'New'],
+        tags: ['Beach', 'Summer'],
         description: 'A sunny day at the beach in miniature form. Turrets, shells and sandy walls make this sand castle fit for tiny royalty.',
         defaultCritters: [{ id: 'critter-24', qty: 2 }],
         details: [
@@ -1989,6 +2184,7 @@ const products = [
         category: 'habitats',
         image: './images/catalogue-items/habitats/watermelonresort-playset.webp',
         name: 'Watermelon Resort Habitat',
+        pageTheme: 'watermelon',
         price: 35.00,
         badge: 'New 🍉',
         badgeColor: '#5AC6C3',
@@ -2143,14 +2339,13 @@ const products = [
         image: './images/catalogue-items/habitats/badger-dumpsterplayset.webp',
         name: 'Dumpster Habitat',
         price: 35.00,
-        badge: 'New 🦡',
         badgeColor: '#5AC6C3',
         images: [
             './images/catalogue-items/habitats/badger-dumpsterplayset.webp',
             './images/catalogue-items/habitats/badger-dumpsterplayset2.webp',
             './images/catalogue-items/habitats/badger-dumpsterplayset3.webp',
         ],
-        tags: ['Wildlife', 'Interactable', 'New'],
+        tags: ['Wildlife', 'Interactable'],
         description: 'What’s crawling around in the trash!? A cheeky badger and friends are ready to rummage through this dumpster habitat. Perfect for your tiny scavengers.',
         defaultCritters: [{ id: 'critter-27', qty: 2 }, { id: 'critter-9', qty: 1 }],
         details: [
@@ -2164,6 +2359,7 @@ const products = [
         category: 'habitats',
         image: './images/catalogue-items/habitats/jurassic-playset.webp',
         name: 'Jurassic World Habitat',
+        pageTheme: 'jurassic',
         price: 35.00,
         badge: 'New 🦖',
         badgeColor: '#5AC6C3',
@@ -2206,6 +2402,7 @@ const products = [
         category: 'habitats',
         image: './images/catalogue-items/habitats/treehouse-playset.webp',
         name: 'Treehouse Habitat',
+        pageTheme: 'jungle',
         price: 35.00,
         badge: 'New 🌳',
         badgeColor: '#5AC6C3',
@@ -2222,6 +2419,37 @@ const products = [
             { label: 'Small parts', value: 'Not suitable for children under 3' },
         ]
     },
+    {
+        id: 'habitat-25',
+        category: 'habitats',
+        image: './images/catalogue-items/habitats/planet-playset.webp',
+        name: 'Planet Habitat',
+        pageTheme: 'space',
+        price: 35.00,
+        badge: 'New 🪐',
+        badgeColor: '#9e5ac6',
+        images: [
+            './images/catalogue-items/habitats/planet-playset.webp',
+            './images/catalogue-items/habitats/planet-playset2.webp',
+            './images/catalogue-items/habitats/planet-playset3.webp',
+        ],
+        tags: ['Fantasy', 'Space', 'Interactable', 'New'],
+        description: "Check out the new Planet Landing Playset, two little astronauts have just landed and discovered they're not alone!",
+        defaultCritters: [{ id: 'critter-48', qty: 3 }],
+        details: [
+            { label: 'Includes', value: 'Playset only!' },
+            { label: 'Material', value: 'PLA Pro and Matte' },
+            { label: 'Small parts', value: 'Not suitable for children under 3' },
+        ],
+        options: [
+        {
+            name: 'Style',
+            choices: [
+                { label: 'Rocky Planet', color: '#af5d00' },
+                { label: 'Galactic Planet', color: '#6900af' },
+            ]
+        }, { name: 'Rocket Colour', type: 'text', maxLength: 20, placeholder: 'e.g. White', required: true},]
+    },
 
 
 
@@ -2231,6 +2459,7 @@ const products = [
         category: 'fidgets',
         image: './images/catalogue-items/fidgets/large-star-fidget-gif.gif',
         name: 'Large Star Fidget',
+        pageTheme: 'starry',
         price: 15.00,
         badge: 'New ✨',
         badgeColor: '#5AC6C3',
@@ -2256,6 +2485,7 @@ const products = [
         category: 'fidgets',
         image: './images/catalogue-items/fidgets/christmas-tree-clicker.webp',
         name: 'Christmas Tree Clicker',
+        pageTheme: 'christmas',
         price: 8.00,
         badge: 'Satisfying',
         badgeColor: '#0a9206',
@@ -2275,6 +2505,7 @@ const products = [
         category: 'fidgets',
         image: './images/catalogue-items/fidgets/chubby-star-clicker2.webp',
         name: 'Chubby Star Clicker',
+        pageTheme: 'starry',
         price: 8.00,
         images: [
             './images/catalogue-items/fidgets/chubby-star-clicker.webp',
@@ -2566,6 +2797,7 @@ const products = [
         category: 'christmas',
         image: './images/catalogue-items/fidgets/christmas-tree-clicker.webp',
         name: 'Christmas Tree Clicker',
+        pageTheme: 'christmas',
         price: 8.00,
         badge: 'Satisfying',
         badgeColor: '#0a9206',
@@ -2666,16 +2898,15 @@ const offers = [
         order: 1,
     },
     {
-        id: 'alien-abduction-set',
+        id: 'alien-planet-set',
         type: 'promo',
         badge: 'Out of this world',
-        headline: 'Alien Abduction Bundle',
-        name: 'Alien Abduction Habitat Set',
-        blurb: 'Beam your tiny friends up into the stars with a hovering saucer and paranormal corn fields.',
-        includes: ['habitat-5', { id: 'critter-41', qty: 3 }],
-        // no price = the items are added up
+        headline: 'Alien Planet Bundle',
+        name: 'Alien Planet Habitat Set',
+        blurb: 'Discover new planets with your astronaut buddies in this extraordinary bundle!.',
+        includes: ['habitat-25', { id: 'critter-48', qty: 2 }, { id: 'critter-49', qty: 2 }],
         emojis: ['👽', '🛸', '✨', '🌌', '🐄'],
-        theme: 'purple', fx: 'sparkle', pattern: 'dots',
+        theme: 'purple', fx: 'float', pattern: 'dots',
         order: 2,
     },
     {

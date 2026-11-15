@@ -1,5 +1,8 @@
 (function () {
-    const colors = ['#F5F5F5', '#5AC6C3', '#FFC2E2', '#F376A5', '#736CED', '#FDBB49'];
+    // a product page theme can swap these (see pageThemes in products.js)
+    const colors = (Array.isArray(window.pageRainColors) && window.pageRainColors.length)
+        ? window.pageRainColors
+        : ['#F5F5F5', '#5AC6C3', '#FFC2E2', '#F376A5', '#736CED', '#FDBB49'];
     const shapes = ['dot', 'confetti', 'sparkle'];
     const count = window.matchMedia('(max-width: 700px)').matches ? 20 : 40;
 

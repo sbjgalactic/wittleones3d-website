@@ -428,3 +428,98 @@
 .option-input.invalid { border-color: #C8363F; }
 .option-help { margin: 0; font-family: "Libre Baskerville"; font-size: 0.85rem; color: #4a2a3d; opacity: 0.85; }
 .theme-christmas .option-help { color: #F5F5F5; }
+/* ============================================================
+   PAGE THEMES - colours come from pageThemes at the top of products.js.
+   product.js sets the --pt-* variables on <body> and adds .page-themed.
+   Each var() falls back to the normal site colour if a theme leaves it out.
+   ============================================================ */
+body.page-themed { background-color: var(--pt-bg, #F5F5F5); }
+
+/* header + footer */
+body.page-themed header,
+body.page-themed footer {
+    background-color: var(--pt-header, #FFC2E2);
+    color: var(--pt-header-text, #4a2a3d);
+}
+body.page-themed .right-header a,
+body.page-themed .footer-links a,
+body.page-themed .footer-brand p { color: var(--pt-header-text, #4a2a3d); }
+body.page-themed .right-header a:not(:has(.cart-icon)):hover,
+body.page-themed .right-header a:not(:has(.cart-icon)):focus-visible,
+body.page-themed .footer-links a:hover,
+body.page-themed .footer-links a:focus-visible {
+    background-color: var(--pt-bg, #F5F5F5);
+    color: var(--pt-accent, #F376A5);
+}
+body.page-themed .left-header h1 {
+    text-shadow:
+        -1.5px -1.5px 0 var(--pt-accent, #F376A5),
+         1.5px -1.5px 0 var(--pt-accent, #F376A5),
+        -1.5px  1.5px 0 var(--pt-accent, #F376A5),
+         1.5px  1.5px 0 var(--pt-accent, #F376A5),
+         0px  3px 0 var(--pt-accent, #F376A5);
+}
+
+/* back link */
+body.page-themed .back-link,
+body.page-themed .back-link:visited {
+    background-color: var(--pt-card, #FFC2E2);
+    color: var(--pt-text, #4a2a3d);
+}
+body.page-themed .back-link:hover,
+body.page-themed .back-link:focus-visible {
+    background-color: var(--pt-accent, #F376A5);
+    color: var(--pt-accent-text, #F5F5F5);
+}
+
+/* product card */
+body.page-themed .product-detail { background-color: var(--pt-card, #FFC2E2); }
+body.page-themed .gallery-main,
+body.page-themed .gallery-thumb,
+body.page-themed .default-critters-list img { background-color: var(--pt-card-dark, #FF90B3); }
+body.page-themed .gallery-thumb.active { border-color: var(--pt-accent, #736CED); }
+
+body.page-themed .product-title {
+    text-shadow:
+        -1.5px -1.5px 0 var(--pt-accent, #F376A5),
+         1.5px -1.5px 0 var(--pt-accent, #F376A5),
+        -1.5px  1.5px 0 var(--pt-accent, #F376A5),
+         1.5px  1.5px 0 var(--pt-accent, #F376A5),
+         0px  3px 0 var(--pt-accent, #F376A5);
+}
+body.page-themed .product-detail-price,
+body.page-themed .product-description,
+body.page-themed .option-label,
+body.page-themed .option-help,
+body.page-themed .default-critters { color: var(--pt-text, #4a2a3d); }
+
+body.page-themed .product-category:hover,
+body.page-themed .product-category:focus-visible {
+    background-color: var(--pt-accent2, #5AC6C3);
+    color: var(--pt-text, #1f3d3c);
+}
+
+/* buttons + selected options */
+body.page-themed .option-btn[aria-pressed="true"],
+body.page-themed .product-pin[aria-pressed="true"] {
+    background-color: var(--pt-accent, #F376A5);
+    color: var(--pt-accent-text, #F5F5F5);
+}
+body.page-themed .product-add {
+    background-color: var(--pt-accent, #F376A5);
+    color: var(--pt-accent-text, #F5F5F5);
+}
+body.page-themed .product-add:hover {
+    background-color: var(--pt-accent2, #736CED);
+}
+body.page-themed .default-critters-btn { background-color: var(--pt-accent2, #736CED); }
+body.page-themed .default-critters-btn:hover { background-color: var(--pt-accent, #F376A5); }
+
+/* focus outlines */
+body.page-themed .back-link:focus-visible,
+body.page-themed .product-category:focus-visible,
+body.page-themed .gallery-thumb:focus-visible,
+body.page-themed .option-btn:focus-visible,
+body.page-themed .option-input:focus-visible,
+body.page-themed .product-add:focus-visible,
+body.page-themed .product-pin:focus-visible { outline-color: var(--pt-accent2, #736CED); }

@@ -14,7 +14,7 @@
 */
 const DISCOUNT_CODES = [
   { code: 'REALLYLONGSUPERDISCOUNTCODEWOWCOOL', percent: 50, label: '50% only for cool ppl', minSubtotal: 5, excludeOffers: true, ends: '2026-12-31T23:59:59+10:00' },
-  { code: 'CONAGHANDISCOUNTCODE', percent: 20, label: '20% off your order!', minSubtotal: 5, excludeOffers: false},
+  { code: 'XMAS2026', percent: 10, label: '10% off your order!', minSubtotal: 5, excludeOffers: true},
   // { code: 'FIVEOFF',   amountOff: 5, label: '$5 off', minSubtotal: 30 },
   //{ code: 'FREESHIP',  freeShipping: true, label: 'Free shipping' },
 ];

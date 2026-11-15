@@ -40,7 +40,26 @@
 
     // Christmas theme: automatic for the christmas category, or add theme: 'christmas'
     // to any product in products.js (e.g. the Cozy Christmas Habitat)
-    const theme = product.theme || (product.category === 'christmas' ? 'christmas' : '');
+    // pageTheme: 'ocean' recolours the whole page from pageThemes at the top of products.js
+    const pageThemeName = product.pageTheme || product['page-theme'];
+    const pageTheme = pageThemeName && typeof pageThemes !== 'undefined' ? pageThemes[pageThemeName] : null;
+    if (pageThemeName && !pageTheme) console.warn('pageTheme "' + pageThemeName + '" is not in pageThemes (products.js).');
+    if (pageTheme) {
+        const vars = {
+            background: '--pt-bg', header: '--pt-header', headerText: '--pt-header-text',
+            card: '--pt-card', cardDark: '--pt-card-dark', text: '--pt-text',
+            accent: '--pt-accent', accentText: '--pt-accent-text', accent2: '--pt-accent2',
+        };
+        Object.keys(vars).forEach(key => {
+            if (pageTheme[key]) document.body.style.setProperty(vars[key], pageTheme[key]);
+        });
+        document.body.classList.add('page-themed');
+        // script.js reads this when it makes the glitter rain (it loads after this file)
+        if (Array.isArray(pageTheme.rain) && pageTheme.rain.length) window.pageRainColors = pageTheme.rain;
+    }
+
+    // a page theme replaces the Christmas look, so the two don't fight
+    const theme = pageTheme ? '' : (product.theme || (product.category === 'christmas' ? 'christmas' : ''));
     if (theme) root.closest('.product-main').classList.add('theme-' + theme);
     backLink.href = './catalogue.html#' + product.category;
     backLink.textContent = '\u2190 Back to ' + product.category;
