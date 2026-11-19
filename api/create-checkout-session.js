@@ -21,6 +21,22 @@ function makeOrderRef() {
   return 'WO-' + out;
 }
 
+// one line listing everything ordered. Stripe limits a metadata value to 500
+// characters, so very big orders end with "...and N more" (full list is in Stripe).
+function summariseItems(list) {
+  let out = '';
+  for (let n = 0; n < list.length; n++) {
+    const next = (out ? out + '; ' : '') + list[n];
+    const rest = list.length - n - 1;
+    const tail = rest ? '; ...and ' + rest + ' more' : '';
+    if (next.length + tail.length > 500) {
+      return (out || list[n].slice(0, 470)) + '; ...and ' + (list.length - n - (out ? 0 : 1)) + ' more';
+    }
+    out = next;
+  }
+  return out;
+}
+
 // only allow paths on our own site, e.g. /catalogue.html or /product.html?id=critter-3
 function safeReturnPath(p) {
   return (typeof p === 'string' && p.length < 300 && /^\/(?![\/\\])/.test(p)) ? p : '/catalogue.html';
@@ -37,6 +53,7 @@ module.exports = async (req, res) => {
     const cat = load();
     let subtotal = 0;
     const lines = []; // for working out the discount code
+    const summary = []; // e.g. "2x Mini Crocodile (Colour: Green)" for the order email
     const line_items = items.map(i => {
       const p = getItem(i.id, cat);
       if (!p) throw new Error('Unknown product ' + i.id);
@@ -62,6 +79,8 @@ module.exports = async (req, res) => {
         .map(([k, v]) => `${k}: ${v}`)
         .join(', ');
       const desc = [p.contents, opts].filter(Boolean).join(' | ').slice(0, 500);
+      const shownOpts = opts.split(', ').filter(o => o && o !== 'Keychain: No').join(', '); // "Keychain: No" is the default
+      summary.push(qty + 'x ' + p.name + (shownOpts ? ' (' + shownOpts + ')' : ''));
       return {
         quantity: qty,
         price_data: {
@@ -82,14 +101,15 @@ module.exports = async (req, res) => {
     const base = String(req.headers.origin || process.env.SITE_URL || '').replace(/\/$/, '');
 
     const orderRef = makeOrderRef();
+    const itemsText = summariseItems(summary);
     const params = {
       mode: 'payment',
       line_items,
       phone_number_collection: { enabled: true },
-      metadata: { delivery, order_ref: orderRef },
+      metadata: { delivery, order_ref: orderRef, items: itemsText },
       payment_intent_data: {
         description: 'Wittle Ones 3D order ' + orderRef, // shows in the Stripe dashboard
-        metadata: { delivery, order_ref: orderRef },
+        metadata: { delivery, order_ref: orderRef, items: itemsText },
       },
       success_url: `${base}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}${safeReturnPath(body.returnTo)}#cart`, // #cart reopens the cart drawer
