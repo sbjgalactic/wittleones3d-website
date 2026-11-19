@@ -7,12 +7,14 @@ app.use(express.json());
 
 const createCheckoutSession = require('./api/create-checkout-session');
 const checkCode = require('./api/check-code');
+const orderSummary = require('./api/order-summary');
 
 // ...
 app.post('/create-checkout-session', createCheckoutSession);
 app.post('/api/create-checkout-session', createCheckoutSession);
 app.post('/api/check-code', checkCode);
 app.post('/check-code', checkCode);
+app.get('/api/order-summary', orderSummary);
 
 // static files and the 404 handler stay below these
 

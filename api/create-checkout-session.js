@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const Stripe = require('stripe');
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const { getItem, load } = require('./_prices');
@@ -10,6 +11,15 @@ const PICKUP_NOTE = 'Pickup details: we will message you to arrange a time and p
 
 // typed text comes from customers, so strip control characters and angle brackets and cap the length
 const clean = (s, max) => String(s == null ? '' : s).replace(/[\u0000-\u001f\u007f<>]/g, '').trim().slice(0, max);
+
+// short, easy-to-read order number, e.g. WO-7K3D9QXA (no 0/O/1/I to mix up)
+function makeOrderRef() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const bytes = crypto.randomBytes(8);
+  let out = '';
+  for (const b of bytes) out += chars[b % chars.length];
+  return 'WO-' + out;
+}
 
 // only allow paths on our own site, e.g. /catalogue.html or /product.html?id=critter-3
 function safeReturnPath(p) {
@@ -57,7 +67,11 @@ module.exports = async (req, res) => {
         price_data: {
           currency: 'aud',
           unit_amount: cents,
-          product_data: { name: p.name, ...(desc && { description: desc }) },
+          product_data: {
+            name: p.name,
+            ...(desc && { description: desc }),
+            metadata: { id: String(i.id).slice(0, 100) }, // lets the success page show the right photo
+          },
         },
       };
     });
@@ -67,12 +81,16 @@ module.exports = async (req, res) => {
     // to a different one would show an empty cart.
     const base = String(req.headers.origin || process.env.SITE_URL || '').replace(/\/$/, '');
 
+    const orderRef = makeOrderRef();
     const params = {
       mode: 'payment',
       line_items,
       phone_number_collection: { enabled: true },
-      metadata: { delivery },
-      payment_intent_data: { metadata: { delivery } },
+      metadata: { delivery, order_ref: orderRef },
+      payment_intent_data: {
+        description: 'Wittle Ones 3D order ' + orderRef, // shows in the Stripe dashboard
+        metadata: { delivery, order_ref: orderRef },
+      },
       success_url: `${base}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${base}${safeReturnPath(body.returnTo)}#cart`, // #cart reopens the cart drawer
     };
