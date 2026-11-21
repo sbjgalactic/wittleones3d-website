@@ -1922,6 +1922,43 @@ const products = [
             ]
         }, ]
     },
+    {
+        id: 'critter-50',
+        category: 'critters',
+        image: './images/catalogue-items/critters/quokka-critter.webp',
+        name: 'Quokka',
+        pageTheme: 'jungle',
+        price: 5.00,
+        badge: 'New ⛺ ',
+        badgeColor: '#995c00',        
+        images: [
+            './images/catalogue-items/critters/quokka-critter.webp',
+            './images/catalogue-items/critters/quokka-critter2.webp'
+        ],
+        tags: ['Jungle', 'Australia', 'New', 'Keychain'],
+        description: 'Say cheese! The happiest little critter in Australia, with big curious eyes and a smile that never quits. Perfect for camping trips and selfies with your tiny friends.',
+        details: [
+            { label: 'Includes', value: '1 quokka critter' },
+            { label: 'Material', value: 'PLA Pro and Matte' },
+            { label: 'Small parts', value: 'Not suitable for children under 3' },
+        ],
+
+        options: [
+        {
+            name: 'Keychain',
+            choices: [
+                { label: 'Yes', color: '#49fd70' },
+                { label: 'No',   color: '#ff3131' },
+            ]
+        },
+        {
+            name: 'Question Mark',
+            choices: [
+                { label: 'Yes', color: '#49fd70' },
+                { label: 'No',   color: '#ff3131' },
+            ]
+        }, ]
+    },
 
 
     // HABITATS
@@ -2449,6 +2486,29 @@ const products = [
                 { label: 'Galactic Planet', color: '#6900af' },
             ]
         }, { name: 'Rocket Colour', type: 'text', maxLength: 20, placeholder: 'e.g. White', required: true},]
+    },
+    {
+        id: 'habitat-26',
+        category: 'habitats',
+        image: './images/catalogue-items/habitats/adventure-playset.webp',
+        name: 'Adventure Camp Habitat',
+        pageTheme: 'jungle',
+        price: 35.00,
+        badge: 'New ⛺ ',
+        badgeColor: '#995c00',     
+        images: [
+            './images/catalogue-items/habitats/adventure-playset.webp',
+            './images/catalogue-items/habitats/adventure-playset2.webp',
+            './images/catalogue-items/habitats/adventure-playset3.webp',
+        ],
+        tags: ['Jungle', 'Australia', 'Interactable', 'New'],
+        description: 'Pitch a tent in the great Aussie outback! This camp is set up under a shady gum tree beside red rock boulders, with a crackling campfire, glowing lantern, backpack, bedroll and even a kangaroo crossing sign. The perfect spot for your tiny friends to swap stories around the fire.',
+        defaultCritters: [{ id: 'critter-50', qty: 3 }],
+        details: [
+            { label: 'Includes', value: 'Playset only!' },
+            { label: 'Material', value: 'PLA Pro and Matte' },
+            { label: 'Small parts', value: 'Not suitable for children under 3' },
+        ],
     },
 
 
