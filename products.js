@@ -1,7 +1,7 @@
 /* ============================================================
    PAGE THEMES - recolour a product's whole page
    ============================================================
-   Give any product   pageTheme: 'ocean'   (or 'page-theme': 'ocean')
+   Give any product   pageTheme: 'australia'   (or 'page-theme': 'australia')
    and its product page uses that theme's colours below.
 
    Every colour is optional; anything you leave out keeps the normal
@@ -19,89 +19,17 @@
      rain         list of glitter/confetti colours
    ============================================================ */
 const pageThemes = {
-    ocean: {
-        background: '#E6F5FF',
-        header: '#9FD8FF',
-        headerText: '#1D3B52',
-        card: '#BFE6FF',
-        cardDark: '#7CC4F0',
-        text: '#1D3B52',
-        accent: '#2F8FD8',
-        accentText: '#F5F5F5',
-        accent2: '#5AC6C3',
-        rain: ['#2F8FD8', '#5BB8FF', '#A9DCFF', '#FFFFFF', '#5AC6C3'],
-    },
-    jungle: {
-        background: '#EEF8E6',
-        header: '#A8DB8C',
-        headerText: '#1E3B22',
-        card: '#C6EBB0',
-        cardDark: '#8FCF6B',
-        text: '#1E3B22',
-        accent: '#2EA36B',
-        accentText: '#F5F5F5',
-        accent2: '#FDBB49',
-        rain: ['#2EA36B', '#8FCF6B', '#C6D94A', '#FDBB49', '#FFFFFF'],
-    },
-    sunset: {
-        background: '#FFF3E6',
-        header: '#FFC58F',
-        headerText: '#4A2A1D',
-        card: '#FFD9B3',
-        cardDark: '#FFB066',
-        text: '#4A2A1D',
-        accent: '#FF5A3C',
-        accentText: '#F5F5F5',
-        accent2: '#F376A5',
-        rain: ['#FF5A3C', '#FF8C42', '#FDBB49', '#F376A5', '#FFFFFF'],
-    },
-    space: {
-        background: '#ECEAFF',
-        header: '#B9B2FF',
-        headerText: '#221E4A',
-        card: '#CFCAFF',
-        cardDark: '#8E7DFF',
-        text: '#221E4A',
-        accent: '#736CED',
-        accentText: '#F5F5F5',
-        accent2: '#FDBB49',
-        rain: ['#736CED', '#8E7DFF', '#D9A7FF', '#FDBB49', '#FFFFFF'],
-    },
-    watermelon: {
-        background: '#FFF0F2',
-        header: '#FF9AA8',
-        headerText: '#3B1F24',
-        card: '#FFC4CC',
-        cardDark: '#FF6B81',
-        text: '#3B1F24',
-        accent: '#2B8A4E',
-        accentText: '#F5F5F5',
-        accent2: '#FF6B81',
-        rain: ['#FF6B81', '#2B8A4E', '#A4F376', '#FFFFFF', '#3B1F24'],
-    },
-    jurassic: {
-        background: '#F3F0E2',
-        header: '#B7C98A',
-        headerText: '#2E2A16',
-        card: '#D5DFB0',
-        cardDark: '#7CCF5A',
-        text: '#2E2A16',
-        accent: '#5C7A2E',
-        accentText: '#F5F5F5',
-        accent2: '#D9822B',
-        rain: ['#7CCF5A', '#5C7A2E', '#D9822B', '#F5D79A', '#FFFFFF'],
-    },
-    starry: {
-        background: '#FFF8E1',
-        header: '#FFDA7A',
-        headerText: '#4A2A1D',
-        card: '#FFE7A6',
-        cardDark: '#FDBB49',
-        text: '#4A2A1D',
-        accent: '#E29A12',
+    australia: {
+        background: '#FBF1E4',
+        header: '#E8A066',
+        headerText: '#4A2414',
+        card: '#F5CFA6',
+        cardDark: '#C8643B',
+        text: '#4A2414',
+        accent: '#B8502A',
         accentText: '#FFFFFF',
-        accent2: '#736CED',
-        rain: ['#FDBB49', '#FFD84D', '#FFFFFF', '#736CED', '#F376A5'],
+        accent2: '#7A9A3A',
+        rain: ['#C8643B', '#E8A066', '#FDBB49', '#7A9A3A', '#FFFFFF'],
     },
     christmas: {
         background: '#F4F1EA',
@@ -1821,7 +1749,6 @@ const products = [
         category: 'critters',
         image: './images/catalogue-items/critters/monkey-critter.webp',
         name: 'Monkey',
-        pageTheme: 'jungle',
         price: 5.00,
         badge: 'New 🐒',
         badgeColor: '#5AC6C3',
@@ -1852,7 +1779,6 @@ const products = [
         category: 'critters',
         image: './images/catalogue-items/critters/astronaut-critter.webp',
         name: 'Astronaut',
-        pageTheme: 'space',
         price: 5.00,
         badge: 'New 🪐',
         badgeColor: '#9e5ac6',        
@@ -1890,7 +1816,6 @@ const products = [
         category: 'critters',
         image: './images/catalogue-items/critters/alien-critter.webp',
         name: 'Alien',
-        pageTheme: 'space',
         price: 5.00,
         badge: 'New 🪐',
         badgeColor: '#9e5ac6',        
@@ -1927,7 +1852,7 @@ const products = [
         category: 'critters',
         image: './images/catalogue-items/critters/quokka-critter.webp',
         name: 'Quokka',
-        pageTheme: 'jungle',
+        pageTheme: 'australia',
         price: 5.00,
         badge: 'New ⛺ ',
         badgeColor: '#995c00',        
@@ -1950,14 +1875,7 @@ const products = [
                 { label: 'Yes', color: '#49fd70' },
                 { label: 'No',   color: '#ff3131' },
             ]
-        },
-        {
-            name: 'Question Mark',
-            choices: [
-                { label: 'Yes', color: '#49fd70' },
-                { label: 'No',   color: '#ff3131' },
-            ]
-        }, ]
+        },]
     },
 
 
@@ -2029,7 +1947,6 @@ const products = [
         category: 'habitats',
         image: './images/catalogue-items/habitats/alien-playset.webp',
         name: 'Alien Abduction Habitat',
-        pageTheme: 'space',
         price: 35.00,
         badge: 'New 🛸',
         badgeColor: '#5AC6C3',
@@ -2221,7 +2138,6 @@ const products = [
         category: 'habitats',
         image: './images/catalogue-items/habitats/watermelonresort-playset.webp',
         name: 'Watermelon Resort Habitat',
-        pageTheme: 'watermelon',
         price: 35.00,
         badge: 'New 🍉',
         badgeColor: '#5AC6C3',
@@ -2396,7 +2312,6 @@ const products = [
         category: 'habitats',
         image: './images/catalogue-items/habitats/jurassic-playset.webp',
         name: 'Jurassic World Habitat',
-        pageTheme: 'jurassic',
         price: 35.00,
         badge: 'New 🦖',
         badgeColor: '#5AC6C3',
@@ -2439,7 +2354,6 @@ const products = [
         category: 'habitats',
         image: './images/catalogue-items/habitats/treehouse-playset.webp',
         name: 'Treehouse Habitat',
-        pageTheme: 'jungle',
         price: 35.00,
         badge: 'New 🌳',
         badgeColor: '#5AC6C3',
@@ -2461,7 +2375,6 @@ const products = [
         category: 'habitats',
         image: './images/catalogue-items/habitats/planet-playset.webp',
         name: 'Planet Habitat',
-        pageTheme: 'space',
         price: 35.00,
         badge: 'New 🪐',
         badgeColor: '#9e5ac6',
@@ -2492,7 +2405,7 @@ const products = [
         category: 'habitats',
         image: './images/catalogue-items/habitats/adventure-playset.webp',
         name: 'Adventure Camp Habitat',
-        pageTheme: 'jungle',
+        pageTheme: 'australia',
         price: 35.00,
         badge: 'New ⛺ ',
         badgeColor: '#995c00',     
@@ -2519,7 +2432,6 @@ const products = [
         category: 'fidgets',
         image: './images/catalogue-items/fidgets/large-star-fidget-gif.gif',
         name: 'Large Star Fidget',
-        pageTheme: 'starry',
         price: 15.00,
         badge: 'New ✨',
         badgeColor: '#5AC6C3',
@@ -2565,7 +2477,6 @@ const products = [
         category: 'fidgets',
         image: './images/catalogue-items/fidgets/chubby-star-clicker2.webp',
         name: 'Chubby Star Clicker',
-        pageTheme: 'starry',
         price: 8.00,
         images: [
             './images/catalogue-items/fidgets/chubby-star-clicker.webp',

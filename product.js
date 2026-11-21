@@ -40,7 +40,7 @@
 
     // Christmas theme: automatic for the christmas category, or add theme: 'christmas'
     // to any product in products.js (e.g. the Cozy Christmas Habitat)
-    // pageTheme: 'ocean' recolours the whole page from pageThemes at the top of products.js
+    // pageTheme: 'australia' recolours the whole page from pageThemes at the top of products.js
     const pageThemeName = product.pageTheme || product['page-theme'];
     const pageTheme = pageThemeName && typeof pageThemes !== 'undefined' ? pageThemes[pageThemeName] : null;
     if (pageThemeName && !pageTheme) console.warn('pageTheme "' + pageThemeName + '" is not in pageThemes (products.js).');
